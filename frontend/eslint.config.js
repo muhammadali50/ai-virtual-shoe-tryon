@@ -5,9 +5,10 @@ import hooks from 'eslint-plugin-react-hooks'
 import refresh from 'eslint-plugin-react-refresh'
 
 export default tseslint.config(
-  { ignores: ['dist', 'node_modules'] },
+  { ignores: ['dist', 'model-check-dist', 'node_modules', 'public/segmentation'] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
+  { files: ['scripts/*.mjs'], languageOptions: { globals: globals.node } },
   {
     files: ['**/*.{ts,tsx}'],
     languageOptions: { globals: { ...globals.browser, ...globals.node } },

@@ -7,15 +7,20 @@
     "node": ">=24.0.0"
   },
   "scripts": {
+    "assets": "node scripts/prepare-model.mjs",
+    "predev": "npm run assets",
+    "prebuild": "npm run assets",
     "dev": "vite --host 127.0.0.1 --port 5173 --strictPort",
     "typecheck": "tsc --noEmit",
     "build": "npm run typecheck && vite build",
     "lint": "eslint .",
     "test": "vitest run",
+    "test:model": "npm run assets && vite build --mode model-check && vite preview --outDir model-check-dist --host 127.0.0.1 --port 4174 --strictPort",
     "preview": "vite preview --host 127.0.0.1 --port 4173 --strictPort",
     "tunnel": "cloudflared tunnel --url http://127.0.0.1:4173 --http-host-header localhost"
   },
   "dependencies": {
+    "@mediapipe/tasks-vision": "1.1.1",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },

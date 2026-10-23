@@ -28,6 +28,17 @@ h1 span { color: #718365; }
 .viewfinder video { display: block; width: 100%; height: 100%; position: absolute; inset: 0; object-fit: contain; opacity: 0; }
 .viewfinder.is-live { background: #101e19; }
 .is-live video { opacity: 1; }
+.scan-snapshot { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #101e19; }
+.scan-snapshot[hidden] { display: none; }
+.scan-target { position: absolute; inset: 0; width: 100%; height: 100%; background: transparent; border: 0; border-radius: 0; cursor: crosshair; touch-action: manipulation; }
+.scan-target:focus-visible { outline-offset: -4px; }
+.selection-cursor { position: absolute; transform: translate(-50%, -50%); color: white; font-size: 32px; text-shadow: 0 0 3px black; pointer-events: none; }
+.scan-controls { margin-bottom: 20px; border-bottom: 1px solid #e4e9df; padding-bottom: 16px; }
+.scan-button { background: #203d32; color: #f2ffdc; }
+.scan-button:not(:disabled):hover { background: #315443; }
+.scan-status { font-size: 14px; line-height: 1.55; margin: 14px 0 8px; }
+.scan-warning { padding: 10px; background: #fff2dc; color: #6f4b1c; border-radius: 6px; font-size: 13px; line-height: 1.5; }
+.candidate-note { color: #64715e; font-size: 12px; line-height: 1.6; margin-bottom: 0; }
 .camera-empty { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 26px; background-image: radial-gradient(#bac5b470 .7px, transparent .7px); background-size: 18px 18px; }
 .camera-glyph { width: 64px; height: 64px; display: grid; place-items: center; border-radius: 50%; background: #f5f7ef; border: 1px solid #c9d2c2; margin-bottom: 18px; }
 .camera-glyph svg { width: 34px; stroke: #526a4b; stroke-width: 1.5; stroke-linejoin: round; }

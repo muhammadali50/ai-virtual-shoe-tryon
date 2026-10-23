@@ -12,7 +12,9 @@ models/*.task
 # Frontend dependencies and generated files
 frontend/node_modules/
 frontend/dist/
+frontend/model-check-dist/
 frontend/coverage/
+frontend/public/segmentation/
 frontend/*.tsbuildinfo
 frontend/.env.local
 frontend/.env.*.local

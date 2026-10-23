@@ -1,11 +1,13 @@
 # AI Virtual Shoe Try-On
 
-## Mobile web camera (Step 4)
+## Mobile foot scanning prototype (Step 5)
 
 The independent React/Vite/TypeScript app is in `frontend/`. It provides a
 mobile camera preview with rear-camera preference, Start/Stop controls, status,
-permission handling and automatic stream cleanup. Camera frames stay in the
-browser. This frontend step contains no ML inference or AR rendering.
+permission handling and automatic stream cleanup. Scan Foot lets you tap one
+visible foot, capture a frame in memory and highlight a MediaPipe MagicTouch
+segmentation candidate. This general segmenter does not confirm foot identity.
+Camera frames and inference stay in the browser. There is no shoe rendering.
 
 ```powershell
 cd frontend
