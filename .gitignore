@@ -1,0 +1,18 @@
+# Virtual environments
+.venv/
+
+# Python bytecode and test cache
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Downloaded model assets (setup instructions are in README.md)
+models/*.task
+
+# Frontend dependencies and generated files
+frontend/node_modules/
+frontend/dist/
+frontend/coverage/
+frontend/*.tsbuildinfo
+frontend/.env.local
+frontend/.env.*.local
