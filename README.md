@@ -1,8 +1,15 @@
 # AI Virtual Shoe Try-On
 
+## Formal shoe catalog
+
+`frontend/` serves a responsive **Formal Collection** catalog at `/`, built from
+the locally downloaded LOGO Formal dataset in `data/logo-formal/` (one card per
+product with local photos, each with its own swipeable gallery). See
+[frontend/README.md](frontend/README.md#formal-catalog).
+
 ## Mobile foot scanning prototype (Step 5)
 
-The independent React/Vite/TypeScript app is in `frontend/`. It provides a
+The independent React/Vite/TypeScript app is in `frontend/` at `/scan/`. It provides a
 mobile camera preview with rear-camera preference, Start/Stop controls, status,
 permission handling and automatic stream cleanup. Scan Foot lets you tap one
 visible foot, capture a frame in memory and highlight a MediaPipe MagicTouch
@@ -15,7 +22,8 @@ npm ci
 npm run dev
 ```
 
-Use Node.js 24 or newer. Open http://localhost:5173 on this computer.
+Use Node.js 24 or newer. Open http://localhost:5173/ (catalog) or
+http://localhost:5173/scan/ (camera prototype) on this computer.
 See [frontend setup and HTTPS phone testing](frontend/README.md) for Android,
 iPhone, Cloudflare tunnel commands, checks and real-device verification steps.
 The existing Python commands and functionality below are independent.

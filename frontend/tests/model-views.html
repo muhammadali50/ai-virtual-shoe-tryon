@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<meta charset="UTF-8" />
+<title>Shoe model inspection views</title>
+<style>
+  body { margin: 0; font: 13px system-ui, sans-serif; background: #e8d2b5; }
+  #views { display: grid; grid-template-columns: repeat(3, 420px); gap: 8px; padding: 8px; }
+  figure { margin: 0; background: #fff; }
+  figcaption { padding: 4px 8px; }
+  img { display: block; width: 420px; height: 320px; }
+  body.single { margin: 0; } body.single > p, body.single > pre { display: none; }
+  body.single #views { display: block; padding: 0; } body.single img { width: auto; height: auto; }
+</style>
+<p style="padding: 0 8px">Dev-only: renders a GLB from fixed angles. Query: <code>?model=/models/2649-bka.glb</code></p>
+<pre id="status" style="padding: 0 8px">Loading…</pre>
+<div id="views"></div>
+<script type="module" src="./model-views.ts"></script>
+</html>

@@ -4,7 +4,7 @@ export default function App() {
   return (
     <main className="app-shell">
       <header className="page-header">
-        <a className="wordmark" href="./" aria-label="AI Virtual Shoe Try-On home">
+        <a className="wordmark" href={import.meta.env.BASE_URL} aria-label="AI Virtual Shoe Try-On home">
           <span className="brand-mark" aria-hidden="true">↗</span> STEP / INTO
         </a>
         <span className="edition">FOOT SCAN · PROTOTYPE</span>

@@ -6,9 +6,9 @@ All paths are relative to the project root (the folder containing this file).
 Sections A-F are the CURRENT SNAPSHOT and are rewritten as work progresses.
 Section G is the HISTORY and is append-only.
 
-Last updated: 2026-11-21 (LOGO Formal collection audit)
-Audited commit: 97c9954 "Add on-device foot scan prototype" on branch main
-Working tree at audit time: clean (no uncommitted work to preserve)
+Last updated: 2026-11-21 (Step 3B: 2649-bka 3D model rebuilt to match the product photos)
+Base commit: a61a0ef "shoes images plus complete report" on branch main
+Working tree: Step 2, 3A and 3B changes are UNCOMMITTED (listed in the work log)
 
 Status vocabulary used throughout:
   Verified working          - expected outcome observed by running it (evidence cited)
@@ -28,8 +28,10 @@ A. EXECUTIVE SUMMARY
 What the project is
   An "AI Virtual Shoe Try-On" prototype built in steps. Two INDEPENDENT
   tracks exist in the repository and share no code:
-    1. frontend/  - a mobile-first React/Vite/TypeScript web app ("Step 5"
-       prototype). It shows a rear-camera preview. With Scan Foot, the user taps
+    1. frontend/  - a mobile-first React/Vite/TypeScript web app with two pages.
+       "/" is the Formal Collection catalog: 15 LOGO formal shoes, each with
+       its own swipeable photo gallery, built from data/logo-formal/.
+       "/scan/" is the "Step 5" foot scan prototype. It shows a rear-camera preview. With Scan Foot, the user taps
        one foot, the app freezes that frame, and an on-device
        MediaPipe MagicTouch interactive-segmentation model highlights a
        "segmentation candidate" region in green. Everything runs in the
@@ -43,17 +45,28 @@ What can be demonstrated today
     a Web Worker -> green candidate overlay on the frozen frame -> Retry ->
     second scan -> Stop Camera releases the stream. A denied camera permission
     shows the correct guidance message.
+  - Catalog (verified in desktop Chromium, touch emulation and the production
+    build): 15 cards, one per product with local photos, 72 photos. Swipe,
+    arrows and keyboard all work, and each card keeps its own photo. No
+    horizontal overflow from 320 px to 1440 px.
+  - 3D View (Step 3A): the first card (2649-bka LEOHARDT LOAFER) has a 3D slide
+    after its 5 photos. It shows a procedural GLB of the right shoe that rotates
+    by drag, with Reset view and a photo fallback. Verified in desktop and
+    mobile-viewport Chromium, on the dev server and the production build.
   - Real-model smoke test page passes (model + WASM runtime integration).
   - Python: real pose model loads and runs inference headlessly; 19 unit tests
     pass.
-  - All automated checks pass: frontend typecheck, lint, 42 tests, production
+  - All automated checks pass: frontend typecheck, lint, 75 tests, production
     build; Python 19 tests and pip dependency check.
 
 What blocks completion
-  - No shoe try-on exists. A 246-product LOGO Formal catalog inventory exists
-    under data/logo-formal/ with partial gallery coverage and no local photos.
-    Foot pose/scale estimation for placement and shoe rendering are missing. The READMEs
-    say this explicitly ("There is no shoe rendering").
+  - No shoe try-on exists. The catalog shows 15 of 246 LOGO Formal products,
+    because only 15 have local photos. Foot pose/scale estimation for placement
+    and shoe rendering are missing. Each card says "Virtual try-on coming soon".
+  - Reuse permission for the LOGO photos is UNVERIFIED (public_reuse_status
+    is "unverified" on all 72). Deploying the site publicly, including the
+    Vercel Git deployment from main, would publish them. Confirm permission
+    first (TASK-017).
   - The product scope is undocumented beyond the current step. The README
     calls the web app "Step 5", but no roadmap or requirements document
     exists in the repo. Which track (web or Python) is the product path is
@@ -70,9 +83,10 @@ Three most important next steps
      iPhone over HTTPS, using the checklist in frontend/README.md. Record scan
      latency, because about 14-17 s per scan was observed in headless desktop
      Chromium.
-  3. TASK-005..007: Build the first end-to-end try-on on a captured snapshot:
-     derive the foot axis and scale from the mask, load one shoe asset, and
-     render it aligned to the foot.
+  3. TASK-017 before any public deploy of the catalog. Then TASK-005..007:
+     build the first end-to-end try-on on a captured snapshot. Derive the foot
+     axis and scale from the mask, then render the selected catalog shoe
+     (stable ID = dataset slug) aligned to the foot.
 
 
 ======================================================================
@@ -114,6 +128,16 @@ Confirmed requirements (stated in repository docs)
                                                      [README.md]
   R9  Model integration abstracted behind src/segmentation/engine.ts so a
       future custom foot model can replace it.       [frontend/README.md]
+  R10 Formal catalog page (Step 2). One card per LOGO Formal product that
+      has a usable local photo; no fixed count. Each card has its own gallery
+      (main photo first, then verified order), the name and the description.
+      Stored HTML is rendered safely; missing descriptions show verified
+      details and are recorded. Swipe, arrows, keyboard and a "2 / 5"
+      indicator, with independent positions. Palette sage #A5A79B, cream
+      #E8D2B5, burgundy #590907. Header, hero with Explore Collection, grid
+      (3/2/1 columns), footer. Stable product IDs. "Virtual try-on coming
+      soon" label. Camera prototype stays reachable.
+                                                     [owner instruction, 2026-11-21]
 
 Inferred requirements (from project name and "later step" notes; NOT yet
 confirmed by the owner)
@@ -121,7 +145,8 @@ confirmed by the owner)
       README: "No segmentation or shoe rendering is implemented here"]
   I2  Custom ML / improved close-up foot detection. [README.md: "belong to a
       later project step"]
-  I3  Shoe selection (catalog) - implied by I1, not mentioned anywhere.
+  I3  Shoe selection for try-on. Browsing is now confirmed (R10); choosing a
+      shoe to feed try-on is still inferred.
 
 Discrepancies and documentation gaps
   D1  "Step 5" is referenced, but the step plan (Steps 1-4 and 6+) is not in the
@@ -132,13 +157,25 @@ Discrepancies and documentation gaps
       try-on.
   D3  Setup docs are Windows/PowerShell-only. This audit validated Linux bash
       equivalents (section C).
-  D4  frontend/index.html meta description still says "camera preview" and
-      does not mention the scan feature (cosmetic).
+  D4  RESOLVED 2026-11-21: the camera page moved to frontend/scan/index.html
+      with a scan-specific title and description; frontend/index.html is now
+      the catalog.
   D5  frontend/README.md states "The project owner reports that the previous
       mobile camera deployment works". This is not verifiable from the repo:
       no deployment URL or Vercel config is committed.
   D6  The root README notes the pose-model weights licence is not
       established, and the MagicTouch weights licence is not discussed.
+  D7  data/logo-formal/collection-report.txt is stale. It says "Downloaded
+      into dataset: 0. URL-only: 72", but 72 files are present, git-tracked,
+      and marked "downloaded" with matching SHA-256 in products.json and
+      image-manifest.csv. The later work-log entry "LOGO Formal alternate photo
+      source" records the download. Left unedited (dataset preserved).
+  D8  Of the 15 products with photos, 14 have description = null and
+      color = null. Only 2649-bka has both. 2649-bka and 2649-bra share the
+      name "LEOHARDT LOAFER". They are distinct slugs with distinct photos and
+      are shown as separate cards, told apart by article code.
+  D9  view_angle "angled" is recorded for every 01-main photo, but those are
+      on-foot lifestyle shots. Alt text reuses the recorded value.
 
 Open questions / decisions needed from the owner
   Q1  What is the MVP "try-on"? A 2D shoe image on a still snapshot, a 3D shoe
@@ -156,6 +193,8 @@ Open questions / decisions needed from the owner
       targets?
   Q8  What is the Vercel project and deployment URL, and who owns it?
   Q9  Is custom model training in scope? If so, what dataset is available?
+  Q10 May the LOGO product names and photos be published on a public
+      deployment, or must the catalog stay local/private (TASK-017)?
 
 
 ======================================================================
@@ -164,7 +203,10 @@ C. ARCHITECTURE AND LOCAL SETUP
 
 Stack
   Web:    React 19, Vite 8, TypeScript 6, @mediapipe/tasks-vision 1.1.1
-          (pinned), Vitest 5 + Testing Library + jsdom, ESLint 10.
+          (pinned), @fontsource-variable/oswald 5.3.0 (pinned, self-hosted
+          headline font), Vitest 5 + Testing Library + jsdom, ESLint 10,
+          @types/node 24 (dev, for the Vite catalog plugin), three 0.187.0
+          (pinned; 3D viewer, lazy chunk) + @types/three 0.187.0 (dev).
           Node >= 24 required (package.json engines).
   Python: Python 3.11, opencv-python / opencv-contrib-python 4.11.0.86,
           mediapipe 0.10.35, numpy 1.26.4 (requirements.txt), unittest.
@@ -172,8 +214,25 @@ Stack
   Deployment: Vercel (documented only; no config committed). CI: none.
 
 Key directories and files
-  frontend/                        web app (independent npm project)
-    index.html                     HTML entry
+  data/logo-formal/                LOGO Formal dataset (products.json, image-manifest.csv,
+                                   collection-report.txt, images/<slug>/NN-<view>.jpg)
+  frontend/                        web app (independent npm project, multi-page build)
+    index.html                     catalog page entry (/) -> src/catalog/main.tsx
+    vite/logoFormalCatalog.ts      Vite plugin: products.json -> virtual:logo-formal-catalog
+                                   (file + SHA-256 checks, imports original photos)
+    src/catalog/normalize.ts       pure dataset normalisation + safe HTML-to-text
+    src/catalog/CatalogPage.tsx    header, hero, collection grid, footer
+    src/catalog/ProductCard.tsx    card: gallery, name, facts, description, try-on label
+    src/catalog/ProductGallery.tsx per-card gallery: swipe, arrows, keys, indicator
+    src/catalog/catalog.css        catalog styles (palette tokens at :root)
+    src/catalog/ShoeViewer.tsx     lazy three.js viewer for the 3D slide (rotate, reset, fallback)
+    src/catalog/models.ts          product ID -> GLB (only 2649-bka today)
+    scripts/build-shoe-model.mjs   generic procedural generator: models-src/<id>/shape.json -> public/models/<id>.glb
+    models-src/2649-bka/           EDITABLE MODEL SOURCE: shape.json (fitted measurements), README.md,
+                                   comparisons/*.jpg (photo vs previous vs revised model)
+    public/models/2649-bka.glb     3D model, committed (served at /models/2649-bka.glb)
+    tests/model-views.html/.ts     dev-only six-angle GLB inspection page
+    scan/index.html                camera prototype entry (/scan/) -> src/main.tsx
     src/main.tsx                   React entry -> App
     src/App.tsx                    page shell; renders CameraPreview
     src/components/CameraPreview.tsx  camera card UI, scan/retry/start/stop
@@ -195,7 +254,15 @@ Key directories and files
   models/                          GENERATED (git-ignored) pose_landmarker_lite.task
 
 Main data flows
-  Web scan flow:
+  Catalog flow (build time + browser):
+    vite/logoFormalCatalog.ts reads data/logo-formal/products.json ->
+    normalizeCatalog(): keeps slugs with >= 1 local photo that exists under
+    data/logo-formal/images/ and matches its sha256; orders main first, then
+    gallery_position; dedupes by path/hash; converts description HTML to text
+    paragraphs -> emits a module that imports each original JPG (Vite fingerprints
+    them into dist/assets/; dev serves them via server.fs.allow limited to the
+    images folder) -> CatalogPage renders one ProductCard per product.
+  Web scan flow (/scan/):
     Start Camera -> useCamera.start(): isSecureContext and API check ->
     getUserMedia({video: environment, 1280x720 ideal, audio:false}) -> <video>.
     Scan Foot -> useFootScan.retry() sets phase "selecting" -> FootSelection
@@ -235,14 +302,14 @@ Local commands (Linux/macOS bash; PowerShell versions are in the READMEs)
   Web (VALIDATED in this audit):
     cd frontend
     npm ci
-    npm run dev            # http://localhost:5173 ; predev prepares model
+    npm run dev            # catalog http://localhost:5173/ ; camera /scan/ ; predev prepares model
     npm run typecheck
     npm run lint
-    npm test               # 42 tests
+    npm test               # 70 tests
     npm run build          # prebuild prepares model; output frontend/dist
     npm run test:model     # then open http://localhost:4174/tests/model-smoke.html
                            # and press "Run model check"
-    npm run preview        # http://localhost:4173 (serves dist)   [NOT run]
+    npm run preview        # http://localhost:4173/ (serves dist; catalog / and /scan/)
     npm run tunnel         # needs cloudflared                     [NOT run]
   Python (VALIDATED except where marked):
     python3.11 -m venv .venv
@@ -399,7 +466,168 @@ F-15 Python desktop webcam preview with foot pose landmarks
     README itself records that none passed filtering in its live sample.
   Files: main.py, src/camera.py, src/foot_tracker.py, tests/
 
-F-16 Shoe catalog / shoe selection             Status: Missing
+F-16 Formal catalog page (/)
+  Expected: R10. One card per unique product with local photos, in a
+    responsive layout with the hero and Explore Collection.
+  Status: Verified working in desktop Chromium (headless) and the production
+    build. NOT verified on real phones or in Safari.
+  Evidence (2026-11-21):
+    - 15 cards with 15 unique data-product-id values, equal to the 15 slugs
+      with local photos among 246 records (231 have empty galleries).
+    - 72 gallery photos. All 72 served by `npm run preview` return HTTP 200
+      image/jpeg, and their SHA-256 matches products.json at the same
+      product and position. Main photo first in every card.
+    - No horizontal overflow at 320, 360, 768, 1024 and 1440 px.
+      Grid columns: 1/1/2/2/3.
+    - Explore Collection scrolls the collection to the top and focuses its
+      heading.
+    - Only 2649-bka shows a description; the other 14 show article, price,
+      sizes and "Description not yet collected for this style."
+  Files: frontend/index.html, frontend/src/catalog/*, frontend/vite/logoFormalCatalog.ts
+  Remaining: real-device check (TASK-002), reuse permission (TASK-017),
+    missing data (TASK-018), image weight (TASK-019).
+
+F-22 Per-card swipe gallery
+  Expected: one photo at a time in a 2:3 frame (object-fit contain, no crop).
+    Swipe left = next, swipe right = previous; vertical drags scroll the page.
+    Prev/next buttons, keyboard, "n / N", independent positions, controls
+    hidden for single-photo galleries, lazy-loaded.
+  Status: Verified working in Chromium with touch emulation (CDP touch input)
+    and with mouse/keyboard. Real touch hardware unverified.
+  Evidence: swipe left 1->2->3, swipe right 3->2, while the neighbouring card
+    stayed 1/5. A vertical drag over the photo scrolled the page 854->1245 px
+    and the gallery stayed put. Arrow clicks worked (including wrap 1->5).
+    Enter and ArrowRight/Left worked with a 3px focus-visible outline. 7
+    gallery unit tests cover the single-photo case and gesture rejection.
+  Files: frontend/src/catalog/ProductGallery.tsx, frontend/src/catalog/catalog.css
+
+F-24 3D model of the first catalog product (2649-bka, LEOHARDT LOAFER, Black)
+  Expected: a product-faithful mesh of one shoe that customers recognise as
+    the same product from the side, top and three-quarter angles.
+    Self-contained GLB with documented orientation.
+  Status: Verified working (loads, renders and rotates in Chromium on the
+    dev server and the production build; glTF validator 0 errors / 0
+    warnings). Silhouettes are fitted numerically to the side and top photos.
+    It is a photo-based APPROXIMATION, not a scan; see "Still differs".
+  History: the Step 3A model was judged not to match the product. It was
+    rebuilt in Step 3B (2026-11-21) from fitted measurements.
+  Files:
+    - Export: frontend/public/models/2649-bka.glb. 1,944,172 bytes (1.85 MiB),
+      34,732 vertices, 54,771 triangles, 6 PBR materials (black pebble-grain
+      leather with a soft clear coat, warm-brown lining, beige-brown insole,
+      dark rubber outsole with a tread normal map, champagne metal, black
+      stitching) and 2 embedded PNG normal maps.
+    - Editable source: frontend/models-src/2649-bka/shape.json (plus README.md).
+      Generator: frontend/scripts/build-shoe-model.mjs; run
+      `npm run model:2649-bka`.
+    - Reviews: frontend/models-src/2649-bka/comparisons/
+      side-photo-vs-revised.jpg, three-quarter-photo-vs-revised.jpg,
+      side-/three-quarter-/top-photo-vs-model.jpg (photo | previous | revised),
+      sole-photo-vs-revised.jpg.
+  Fit results (E.4):
+    - Side silhouette IoU 0.961 (previous model 0.891). Top silhouette IoU
+      0.975 (previous 0.932).
+    - Side profile residuals are within about ±3 mm.
+    - Top widths are within about 1 mm, except the heel end at t = 0.02
+      (+5 mm).
+  Corrected in Step 3B:
+    - Toe and forefoot: broader, rounder toe. Cross-sections are kept <= 1
+      (elliptical) so no ridge crease forms. The toe box is lower and blunt,
+      the upper fills to within 0.3 mm of the sole edge at the toe, and the
+      toe spring is 14.5 mm.
+    - Heel and outsole:
+      - Heel block: low (13 mm) and set 2-3 mm in, with 5 grooved layers,
+        reaching to t = 0.31.
+      - Outsole: the measured arch curve under the waist, and a slight tuck
+        at the back.
+      - Heel counter: rounded rear profile from a radial heel cup, replacing
+        the boxy vertical back.
+    - Upper and opening:
+      - Collar line: refitted to the side photo. The outer side is cut higher
+        than the inner, so only a thin lining strip shows from the side.
+      - Throat and tongue: the counter wraps in. The tongue rises in a smooth
+        U to 92 mm at t = 0.455, with dense stations through the throat.
+      - Inner waist: a medial upper bulge over the narrower sole waist.
+    - Strap: a separate 23 mm band leaning back across the instep (top at
+      t = 0.60, ends 31 mm high at t = 0.54), raised 2.6 mm, with stitched
+      edges.
+    - Toe-panel seam: traced as a broad plan-view U. The side lines sit at
+      about 38 mm height, and the U front is at t = 0.88.
+    - Buckle: separate metal geometry.
+      - Bar: a 30 mm capsule bar with a large oval centre plate and two
+        collars.
+      - Rings: two horseshoe rings (24 x 13 mm, 1.8 mm section) lying on the
+        sides of the instep, joined to the collars by short prongs.
+      - Keepers: leather loops at the bottom of each ring.
+      - Finish: champagne metal colour sampled from the photo.
+    - Materials:
+      - Leather: near-black with fine (~0.9 mm) pebble grain and a soft clear
+        coat.
+      - Lining and insole: colours sampled from the photos. The lining
+        changed from pale tan to warm brown.
+      - Collar binding: dark.
+      - Sole: dark rubber with a stronger tread.
+      - Seam-free grain: no stretch on the quarters, tongue, strap or heel.
+    - Viewer lighting: neutral room environment plus a white key light that
+      follows the camera, so black-on-black relief reads from every angle.
+  Orientation (unchanged convention, for the try-on step):
+    - Axes: metres, +Y up, toe toward +Z, RIGHT shoe with the medial side at
+      +X.
+    - Origin: on the ground at mid-footprint, on the heel-toe axis.
+    - Markers: heel_back (0, 0, -0.1425), toe_tip (0.0064, 0.0225, 0.1425),
+      ball_medial (0.0460, 0, 0.0428), ball_lateral (-0.0456, 0, 0.0428).
+      The same data is in the root node and asset extras.
+  Still differs / not verifiable from the photos:
+    - Heel back: no rear photo exists. The heel-cup curl is inferred, and a
+      small notch shows from above where the two collar bindings meet at the
+      back.
+    - Toe from the three-quarter angle: slightly longer and less bulbous than
+      the photo's front shoe. That photo has strong close-camera perspective;
+      the top-view widths match.
+    - Toe from below: the angled sole photo looks blunter at the toe than
+      the model. The top view was used as the authority for width.
+    - Outsole: the tread is a normal map. The shaped heel top-lift border, the
+      LOGO plate and the "42" mark are not modelled.
+    - Buckle: no engraving; proportions measured from photos, so roughly ±2 mm.
+    - Leather and lighting: the photos' studio softbox lighting gives stronger
+      sheen than the neutral viewer lighting.
+    - Interior: the insole print is omitted. The left shoe is not modelled.
+
+F-25 "3D View" slide in the 2649-bka gallery
+  Expected: the main photo stays first, the 5 photos keep their order, and
+    "3D View" is appended as slide 6. It is reachable by swipe from the last
+    photo, by the next arrow and by a visible shortcut. Drag rotates without
+    changing slide. Reset view. Lazy loading, a loading state, and a photo
+    fallback. Other cards are unchanged.
+  Status: Verified working in Chromium 155 (SwiftShader WebGL): desktop
+    1440x900 and a 390x844 touch-emulated viewport, on the dev server and on
+    `npm run preview`. NOT verified on a real phone.
+  Evidence (E.3):
+    - Starts on 01-main ("1 / 6"); "3D · 6 / 6" after 5 next clicks or 5
+      left swipes.
+    - No GLB and no viewer chunk requested before opening.
+    - A mouse or touch drag changes the rendered image while the slide stays
+      at 6/6 and the page does not scroll.
+    - Reset view is pixel-identical to the default view in the shoe region.
+    - Photos returns to the last photo viewed; next from 3D wraps to 01-main.
+    - A blocked GLB and a browser with WebGL disabled both show 01-main, the
+      message and "Back to photos". The dead canvas is removed.
+    - Other cards stayed at 1/5.
+  Gesture design:
+    - The canvas has touch-action none and is marked
+      data-gallery-gesture="ignore", so drags rotate the shoe and are never
+      gallery swipes.
+    - The arrows, the "3D · n / N" indicator and the Photos / 3D View toggle
+      below the frame sit outside the canvas.
+    - Vertical scrolling works everywhere except on the canvas itself.
+    - No wheel zoom or pan; the shoe stays still until dragged (render on
+      demand).
+  Files: frontend/src/catalog/{ProductGallery.tsx, ShoeViewer.tsx, models.ts,
+    ProductCard.tsx, catalog.css}, frontend/vite.config.ts (lazy-chunk warning limit)
+
+F-23 Shoe selection for try-on                Status: Missing (each card shows a
+       "Virtual try-on coming soon" label, not a button; IDs are ready:
+       #product-<slug>, data-product-id=<slug>)
 F-17 Foot pose, scale and orientation for placement  Status: Missing
        (the web app returns only a binary-ish mask; Python returns 3 points per
        foot; nothing derives heel-toe axis, width or scale)
@@ -418,6 +646,9 @@ Completed work already in the repository (from git history)
   97c9954  On-device foot scan: MagicTouch segmentation via worker, tap
            mapping, mask rendering and warnings, model prep script, smoke
            test page, and tests.
+  a61a0ef  LOGO Formal dataset (246 records, 72 local photos for 15 products),
+           Hi-Street checkpoint data, compreport.txt and CLAUDE.md.
+  (uncommitted) Step 2 Formal catalog page; camera prototype moved to /scan/.
 
 
 ======================================================================
@@ -486,6 +717,80 @@ Limitations affecting confidence
     worker and model (worker loaded once), so inference itself dominates.
   - No confirmed failures (Broken) were found in this audit.
 
+E.2 Catalog verification (2026-11-21, Step 2; same machine, Chromium 155 headless)
+ #  Check                         Command / steps                                Result
+23  Typecheck / lint              npm run typecheck ; npm run lint              PASSED (exit 0, no warnings)
+24  Unit/component tests          npm test                                      PASSED 8 files, 70 tests
+                                                                                (42 existing + 28 catalog)
+25  Production build              npm run build                                 PASSED; dist/index.html,
+                                                                                dist/scan/index.html, 72 JPGs
+26  Built site serves             npm run preview; curl / and /scan/            PASSED (200, 200)
+27  Card/photo reconciliation     headless Chromium on preview: count cards,    PASSED 15 cards, 15 unique IDs,
+                                  step through every gallery, fetch + hash      72 photos, 72/72 sha256 match
+                                  each photo against products.json              at the same product + position
+28  Responsive layout             viewports 320, 360, 768, 1024, 1440;          PASSED, no overflow, no broken
+                                  scrollWidth vs clientWidth; screenshots       images, 1/1/2/2/3 columns
+29  Touch swipe (emulated)        CDP Input.dispatchTouchEvent at 390x844       PASSED (F-22 evidence)
+30  Desktop arrows + keyboard     CDP mouse clicks, Enter, ArrowLeft/Right,     PASSED; Tab order: skip link,
+                                  Tab order from a fresh load                   wordmark, Collection, Foot scan,
+                                                                                Explore Collection, gallery buttons
+31  Explore Collection / links    click button; read hrefs; open /scan/        PASSED (scan page renders Start
+                                                                                Camera; wordmark returns to /)
+32  Console / network errors      collected during all runs                     none (after adding a favicon)
+33  Real phones / Safari          -                                             COULD NOT RUN (no device)
+  How to reproduce 27-31: the driver was a throwaway CDP script (TASK-016).
+  Manually: `npm run build && npm run preview`, then open
+  http://localhost:4173/ in Chrome DevTools device mode (touch).
+
+E.3 3D model and 3D View verification (2026-11-21, Step 3A; Chromium 155 headless with SwiftShader WebGL)
+ #  Check                         Command / steps                                Result
+34  glTF validation               gltf-validator 2.0.0-dev.3.10 (scratch install) PASSED 0 errors, 0 warnings
+                                  on public/models/2649-bka.glb                  (7 infos)
+35  Six-angle inspection          tests/model-views.html on the dev server       PASSED: geometry from top, both sides,
+                                                                                heel and underside (screenshots reviewed)
+36  Typecheck / lint / tests      npm run typecheck ; lint ; test                PASSED; 9 files, 75 tests
+                                                                                (5 new: catalog 3D entry + 3D gallery)
+37  Production build              npm run build                                  PASSED; dist/models/2649-bka.glb identical;
+                                                                                ShoeViewer lazy chunk 643 kB (160 kB gzip);
+                                                                                catalog main chunk 19.9 kB
+38  GLB served by the built site  npm run preview; curl /models/2649-bka.glb     PASSED 200 model/gltf-binary 1,382,040 B
+39  Desktop 3D flow (dev + prod)  CDP: 5x next, wait for Reset view; mouse drag  PASSED (F-25 evidence)
+                                  on canvas; Reset; Photos; prev; 3D View; next
+40  Mobile 3D flow (dev + prod)   CDP touch at 390x844: 5 swipes on the frame;   PASSED: horizontal/vertical drags rotate,
+                                  touch drags on canvas; Reset; vertical drag    slide stays 6/6, no scroll; drag on card
+                                  on the card body; tap Photos                   body scrolls 905->1223; Photos -> 05-sole
+41  Fallbacks                     CDP Fetch.failRequest on the GLB; Chromium     PASSED: main photo + message + Back to
+                                  with --disable-webgl                           photos; no canvas left behind
+42  Catalog regression (prod)     Step 2 checks rerun on npm run preview          PASSED: 15 cards, 72 photos (all 200),
+                                                                                swipes, keyboard, independence, Explore,
+                                                                                /scan/
+43  Real phone                    -                                              COULD NOT RUN (no device). Only the
+                                                                                emulated mobile viewport above was tested.
+
+E.4 Step 3B model rebuild verification (2026-11-21; Chromium 155 headless + SwiftShader; Python fit tools in scratch)
+ #  Check                         Command / steps                                Result
+44  Photo masks                   near-black or saturated pixels, closing, fill  OK; the floor shadow under the arch was
+                                  (excludes grey floor shadow under the arch)    confirmed by pixel sampling and excluded
+45  Side silhouette fit           rasterise GLB at searched camera (elev/yaw/    IoU 0.961 (previous model 0.891); profile
+                                  distance), align by length + ground, IoU and   residuals within about ±3 mm (camera
+                                  top/bottom profile residuals vs 03-side.jpg    elevation 10, yaw 3 degrees)
+46  Top silhouette fit            same vs 04-top.jpg, right (image-left) shoe    IoU 0.975 (previous 0.932); widths within
+                                                                                about 1 mm except the heel end
+47  Three-quarter + sole visual   rendered at matched framing; camera PnP from   PASSED visually (see the comparisons/
+                                  hand-picked points was unreliable (pair        images); differences listed under F-24
+                                  overlap), so the angle was matched by eye
+48  glTF validation               gltf-validator 2.0.0-dev.3.10                  0 errors, 0 warnings (8 infos)
+49  Regeneration is reproducible  regenerate after reformatting shape.json; cmp  byte-identical GLB
+50  Typecheck / lint / tests      npm run typecheck ; lint ; test                PASSED; 75 tests
+51  Production build + serving    npm run build; npm run preview;                PASSED; dist GLB identical; served 200
+                                  curl /models/2649-bka.glb                      model/gltf-binary 1,944,172 B
+52  Gallery + viewer (prod)       desktop 1440x900 and touch 390x844 flows       PASSED: opens on 01-main; no 3D download
+                                  from E.3 rerun against npm run preview         before opening; 5 swipes or next -> 3D;
+                                                                                drag rotates without slide change or
+                                                                                scroll; Reset view pixel-identical;
+                                                                                Photos -> 05-sole; other cards 1/5
+53  Real phone                    -                                              COULD NOT RUN (no device)
+
 Generated, git-ignored artifacts left on disk by this audit
   .venv/, models/pose_landmarker_lite.task, frontend/node_modules/,
   frontend/public/segmentation/, frontend/dist/, frontend/model-check-dist/,
@@ -527,7 +832,15 @@ TASK-002  [P0]  Verify the current web prototype on real phones
     - First-scan and repeat-scan latency are recorded per device.
     - On at least one device without OffscreenCanvas (or with it forced off),
       the fallback path (F-08) completes a scan, or its failure is recorded.
+    - 3D View on 2649-bka on both phones: one-finger drag rotates without
+      changing slide, Reset view works, Photos returns, and the GLB loads on
+      mobile data within an acceptable time (record it).
+    - Catalog at "/" on both phones: swipe left/right changes only the touched
+      card, a vertical drag over a photo scrolls the page, there is no
+      horizontal overflow in portrait or landscape, and Explore Collection
+      works.
     - Any failure becomes a new TASK with repro steps.
+  Note: the camera prototype is now at /scan/ (the root URL is the catalog).
 
 TASK-003  [P1]  Confirm or create the deployment
   Problem: The Vercel deployment is referenced but unverifiable (D5, Q8).
@@ -569,15 +882,21 @@ TASK-005  [P1]  Foot geometry for placement
       <= the TASK-001 tolerance (default proposal: 10 degrees) and the length
       error is <= 10%.
 
-TASK-006  [P1]  Shoe assets and selection UI
-  Problem: No shoe catalog or assets exist (F-16).
-  Files: new frontend/src/catalog/*, asset folder, licence notes
-  Depends on: TASK-001 (Q4: 2D vs 3D, source, licences).
+TASK-006  [P1]  Shoe selection for try-on (browse part DONE 2026-11-21)
+  Done: the catalog browse page (F-16, F-22) with stable product IDs, plus a
+    try-on-oriented 3D asset for 2649-bka (F-24) registered by product ID.
+  Remaining problem: no way to choose a shoe for try-on (F-23). The photos
+    are product photography, not try-on assets: no cut-outs or 3D.
+  Files: frontend/src/catalog/ProductCard.tsx (replace the "coming soon" label),
+    frontend/src/App.tsx (/scan/), a try-on asset folder, licence notes
+  Depends on: TASK-001 (Q4: 2D vs 3D), TASK-017 (permission), TASK-005.
   Acceptance criteria:
-    - >= 3 shoes are selectable in the UI.
-    - Each asset loads without error and has a recorded licence/source.
-    - Selection persists across Retry within a session.
-    - Component tests cover the selection.
+    - Each card's CTA opens try-on with the product slug (e.g.
+      /scan/?product=<slug>), and the try-on page shows that product's name
+      and main photo.
+    - An unknown slug shows a clear message and a link back to the catalog.
+    - Each try-on asset has a recorded licence/source.
+    - Component tests cover selection and the unknown-slug case.
 
 TASK-007  [P1]  Render the selected shoe on the scanned foot (snapshot MVP)
   Problem: The core try-on outcome is missing (F-18).
@@ -643,10 +962,86 @@ TASK-015  [P3]  Model weight licensing (D6)
     risk in writing in this report.
 
 TASK-016  [P3]  Commit an automated browser E2E test
-  Problem: The browser checks E #14-#16 were run with a throwaway script.
+  Problem: The browser checks E #14-#16 and #27-#31 were run with throwaway
+    scripts. Catalog acceptance: the same swipe/keyboard/overflow checks as
+    section E.2.
   Acceptance criteria: an npm script (e.g. Playwright with a Chromium fake
     camera) runs start -> scan -> result -> retry -> stop and the
     permission-denied flow, passes locally, and runs in CI (TASK-011).
+
+--- Catalog follow-ups (added 2026-11-21) ------------------------------
+
+TASK-017  [P0 before any public deployment]  Confirm photo and name reuse
+  Problem: public_reuse_status is "unverified" for all 72 LOGO photos
+    (products.json, image-manifest.csv; Q10). A public deployment of "/" would republish them.
+  Files: data/logo-formal/*, frontend/src/catalog/CatalogPage.tsx (footer credit)
+  Depends on: owner (Q10).
+  Acceptance criteria: written permission or a licence is recorded in
+    data/logo-formal/ and referenced here, OR the decision is recorded that
+    the catalog stays local/private. In that case, the deployment either
+    excludes the catalog or replaces the assets with licensed ones.
+
+TASK-018  [P2]  Complete catalog product data
+  Problem: 14 of 15 products lack description and colour (D8). 231 of 246
+    products have no gallery (source rate-limited, see work log).
+  Files: data/logo-formal/products.json, image-manifest.csv
+  Depends on: source access, TASK-017.
+  Acceptance criteria:
+    - Every product shown has a non-null description and colour, or a
+      recorded reason.
+    - The catalog test in frontend/src/catalog/CatalogPage.test.tsx is updated
+      to the new counts.
+    - The catalog shows the new products with no code change.
+
+TASK-019  [P2]  Responsive image derivatives
+  Problem: the catalog serves 16.3 MB of original 1800x2700 JPGs; main photos
+    are up to 763 KB each, shown about 400 px wide. They are lazy-loaded, but
+    still heavy on mobile data.
+  Files: frontend/vite/logoFormalCatalog.ts (emit width variants),
+    ProductGallery.tsx (srcset/sizes)
+  Acceptance criteria:
+    - Originals are untouched.
+    - Each photo has <= 960 px-wide WebP/JPEG variants with srcset.
+    - On a 390 px viewport the initial load transfers <= 1.5 MB of images.
+    - No visible quality loss at 2x DPR.
+
+TASK-020  [P3]  Refresh the stale dataset collection report (D7)
+  Acceptance criteria: data/logo-formal/collection-report.txt counts match
+    products.json and the files on disk (72 local, 0 URL-only), regenerated
+    by the collection process rather than hand-edited.
+
+--- 3D follow-ups (added 2026-11-21, Step 3A) ---------------------------
+
+TASK-021  [P1]  Validate the 2649-bka model against the real shoe and the try-on step
+  Problem: the model is a photo-based approximation (F-24). The Step 3B
+    rebuild matches the side and top photos (IoU 0.961 / 0.975). The heel
+    back, the toe from below and the outsole details remain unverified, and
+    owner review of the comparisons/ images is pending. Proportions and
+    orientation have not been checked against a physical shoe or a camera
+    scene.
+  Depends on: TASK-005 (foot geometry), the camera try-on step.
+  Acceptance criteria:
+    - Measured length, ball width, heel height and collar height of a real EU
+      42 pair are recorded and within 5 mm of the model, or the generator
+      constants are updated.
+    - A try-on prototype aligns heel_back/toe_tip to a detected foot axis
+      with the documented +Z forward / +Y up convention.
+
+TASK-022  [P2]  3D models for other catalog products
+  Problem: only 2649-bka has a model.
+  Acceptance criteria: each new model has a GLB under public/models/<slug>.glb,
+    an entry in src/catalog/models.ts, 0 glTF-validator errors, a six-angle
+    inspection, and the same orientation conventions. Gallery behaviour is
+    unchanged for products without a model.
+
+TASK-023  [P3]  Smaller GLB and viewer chunk
+  Problem: the GLB is 1.85 MiB after the Step 3B rebuild (denser throat and
+    heel stations, larger buckle), and the lazy viewer chunk is 160 kB gzip.
+  Acceptance criteria:
+    - The GLB is <= 600 kB (e.g. meshopt/quantisation with three's decoder,
+      or fewer lining vertices), with no visible change in the six inspection
+      views and 0 validator errors.
+    - Time to first render after opening 3D is recorded on a mid-range phone.
 
 No completion percentage is given: the try-on scope is undefined until
 TASK-001 is done.
@@ -728,3 +1123,116 @@ G. DATED WORK LOG (append-only; newest at bottom)
     and 0 verified galleries. The LOGO dataset was preserved.
   Next action: reopen the exact casual collection URL and enumerate its
     product URLs through the terminal batch before auditing galleries.
+
+2026-11-21  Step 2: Formal catalog page (Claude Code)
+  Why: owner request to browse the collected LOGO formal shoes on the
+    website: one card per product, all of its photos in its own gallery.
+  Data reconciliation (data/logo-formal, unchanged): 246 records with 246
+    unique slugs. 15 have local galleries; 231 have empty galleries. 72 files
+    on disk, all referenced, all SHA-256 matches, image-manifest.csv equals
+    products.json. No duplicate photos within or across products. 14 of 15
+    lack description and colour. collection-report.txt is stale (D7).
+  Changes:
+    - New catalog at "/": frontend/index.html, frontend/src/catalog/
+      {main.tsx, CatalogPage.tsx, ProductCard.tsx, ProductGallery.tsx,
+      normalize.ts, format.ts, types.ts, virtual-catalog.d.ts, catalog.css}.
+    - Build-time data plugin frontend/vite/logoFormalCatalog.ts, registered in
+      frontend/vite.config.ts with a multi-page build and dev fs.allow limited
+      to data/logo-formal/images. tsconfig includes vite/.
+    - Camera prototype moved to "/scan/": frontend/index.html was renamed to
+      frontend/scan/index.html (title/description updated). src/App.tsx's
+      wordmark now links to the site root. Camera code is otherwise unchanged.
+    - Dependencies: @fontsource-variable/oswald 5.3.0 (exact, self-hosted;
+      no third-party font requests) and @types/node ^24.19.2 (dev).
+    - Tests: normalize.test.ts, ProductGallery.test.tsx, CatalogPage.test.tsx
+      (28 new tests).
+    - Docs: README.md and frontend/README.md (catalog section, /scan/ URLs).
+  Design: sage hero with a condensed Oswald headline "Formal Footwear" and a
+    burgundy diagonal. The hero shoe is 25011-black/02-angled.jpg, shown
+    uncropped (4:5 crop keeps the whole pair) inside an arch window that keeps
+    the photo's own grey studio backdrop, so the silhouette is never blended
+    into the background. Cream catalog with 1/2/3 columns (<640 / 640-1039 /
+    >=1040 px) and a burgundy footer.
+  Verified: section E.2 #23-#32. 15 cards and 72 photos, each served photo
+    hash-matched to its product and position. Swipe, arrows, keyboard and
+    independence all pass. No overflow at 320-1440 px. Explore Collection
+    and /scan/ work. Not verified: real phones/Safari (TASK-002).
+  Preview route: `cd frontend && npm run dev` -> http://localhost:5173/
+    (camera: /scan/). Built: `npm run build && npm run preview` ->
+    http://localhost:4173/
+  Remaining: TASK-017 (photo reuse permission before public deploy), TASK-018
+    (missing descriptions/colours, 231 products without photos), TASK-019
+    (16.3 MB originals; add responsive variants), TASK-006 (selection for
+    try-on), TASK-020 (stale collection report). Changes are not committed.
+
+2026-11-21  Step 3A: 3D model and "3D View" slide for the first catalog product (Claude Code)
+  Why: owner request for a real, rotatable 3D model of the first catalog shoe,
+    added as the last slide of its gallery, as groundwork for camera try-on.
+  Product: 2649-bka LEOHARDT LOAFER (Black), the first rendered card (catalog
+    order). The first folder on disk (10079-bkm) is a different product.
+    References: all 5 local photos (01-main, 02-angled, 03-side, 04-top,
+    05-sole). The top photo shows that the left-hand shoe is a RIGHT shoe.
+  Changes:
+    - Model: frontend/scripts/build-shoe-model.mjs (new, procedural mesh plus
+      a GLB writer with embedded textures). npm script "model:2649-bka".
+      Output frontend/public/models/2649-bka.glb (new, 1,382,040 bytes).
+    - Viewer: frontend/src/catalog/ShoeViewer.tsx (new, lazy three.js viewer)
+      and frontend/src/catalog/models.ts (new, product ID -> model).
+      ProductGallery.tsx adds the 3D slide, gesture exclusion, the
+      Photos/3D View toggle and stable "slide" labels for model galleries.
+      ProductCard.tsx passes the model; catalog.css has the viewer styles.
+    - Config: vite.config.ts chunkSizeWarningLimit 700 (lazy viewer chunk).
+    - Tests: ProductGallery3D.test.tsx (new, 4 tests); CatalogPage.test.tsx
+      gets 1 new test and one assertion now counts photo galleries only.
+    - Dev tool: tests/model-views.html/.ts (dev-only inspection page).
+    - Docs: frontend/README.md "3D model" section.
+    - Dependencies: three 0.187.0 (exact) and @types/three 0.187.0 (dev).
+  Verified: E.3 #34-#42. The GLB is valid, inspected from 6 angles, and loads
+    from the dev server and the production build. Desktop and emulated-mobile
+    3D flows pass (rotate without slide change, reset, return to photos, lazy
+    loading, both fallbacks), and the catalog regression passes.
+  Not verified: real phones (TASK-002), real-shoe dimensions and try-on
+    alignment (TASK-021).
+  Preview: `cd frontend && npm run dev` -> http://localhost:5173/ (first card,
+    3D View). Built: `npm run build && npm run preview` -> http://localhost:4173/
+  Remaining: TASK-021, TASK-022, TASK-023. Changes are not committed.
+
+2026-11-21  Step 3B: 2649-bka 3D model rebuilt to match the product (Claude Code)
+  Why: owner review found that the Step 3A model did not match the product
+    (toe, heel, upper/opening, strap, buckle, materials). The reference
+    screenshots mentioned in the request were not attached, so the
+    repository photos were used as the source of truth.
+  Product: 2649-bka LEOHARDT LOAFER, the first rendered card. Photos 02-angled,
+    03-side, 04-top and 05-sole (1800x2700). Blender is not installed, so the
+    model stays procedural and code-generated, and is now fitted
+    quantitatively.
+  Method:
+    - Photo masks, a silhouette rasteriser with a camera search, IoU and
+      per-length profile residuals against the side and top photos, plus
+      rendered side-by-sides at matched cameras.
+    - About 20 fit/render iterations. Geometry was fixed before materials.
+    - Generator bugs found by inspection and fixed: an inverted heel-cup centre
+      that left the back as a vertical wall; a buckle with long crossing prongs
+      and an upright far ring; cross-sections above 1 that creased the toe;
+      sparse throat stations that left a V-notch; stretched grain on the
+      quarters, tongue and strap.
+  Changes:
+    - Generator: frontend/scripts/build-shoe-model.mjs (rewritten; generic,
+      driven by shape.json; adds the heel cup, quarter curl, per-side collar,
+      plan-view U apron seam, new buckle, clear-coat leather and seam-free
+      UVs). npm script "model:2649-bka" now passes the product ID.
+    - New: frontend/models-src/2649-bka/{shape.json, README.md,
+      comparisons/*.jpg}.
+    - Regenerated: frontend/public/models/2649-bka.glb (1,944,172 bytes).
+    - Viewer and inspection page: frontend/src/catalog/ShoeViewer.tsx and
+      frontend/tests/model-views.ts get a camera-following key light;
+      model-views also gets a single-view comparison mode (cam, fov, w, h,
+      target, mirror) and neutral tone mapping. model-views.html gets styles.
+    - Docs: frontend/README.md.
+  Verified: E.4 #44-#52. Side IoU 0.961, top IoU 0.975, 0 validator errors.
+    Desktop and mobile-viewport gallery flows pass on the production build.
+  Not verified: real phone; heel back (no photo); the outsole's moulded
+    details.
+  Next: owner reviews comparisons/side-photo-vs-revised.jpg and
+    three-quarter-photo-vs-revised.jpg before camera try-on (TASK-021).
+    Changes are not committed.
