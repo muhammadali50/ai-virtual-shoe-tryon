@@ -1,0 +1,26 @@
+Hi-Street Phase 1 checkpoint — 2026-11-21
+
+Primary collection: https://histreet.pk/collections/casual-shoes
+Conditional fallback: https://histreet.pk/collections/formal-shoes
+
+Collection audit
+A cached snapshot showed 16 visible product cards and a Show More button.
+No collection-wide count or terminal batch was established. At 14:29:23 PKT
+the first live collection GET returned HTTP 429 with Retry-After: 60 seconds.
+All requests to histreet.pk stopped immediately. Earliest retry allowed by
+the response was 14:30:23 PKT.
+
+Dataset counts
+Verified product records: 0
+Actual image files saved: 0
+URL-only image references: 0
+Fully verified product galleries: 0
+Single-shoe overhead candidate: none verified
+
+Resume checkpoint
+Pending exact entry point: https://histreet.pk/collections/casual-shoes
+The live audit stopped before product URLs and later batch URLs could be
+enumerated. The product URL queue is unknown, rather than empty. On resume,
+follow Show More to the terminal batch, record the unique product URLs, then
+verify galleries for the first five products. Complete the casual audit and
+check the conditional formal collection if no single-shoe overhead is found.

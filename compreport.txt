@@ -1,0 +1,730 @@
+AI VIRTUAL SHOE TRY-ON - PROJECT COMPLETION REPORT
+====================================================
+
+Handoff document for every contributor and every Claude Code session.
+All paths are relative to the project root (the folder containing this file).
+Sections A-F are the CURRENT SNAPSHOT and are rewritten as work progresses.
+Section G is the HISTORY and is append-only.
+
+Last updated: 2026-11-21 (LOGO Formal collection audit)
+Audited commit: 97c9954 "Add on-device foot scan prototype" on branch main
+Working tree at audit time: clean (no uncommitted work to preserve)
+
+Status vocabulary used throughout:
+  Verified working          - expected outcome observed by running it (evidence cited)
+  Implemented but unverified - code exists; unit-tested with mocks at most, real outcome not observed
+  Partially implemented     - some of the expected behavior exists or was verified, some does not
+  Broken                    - ran it and it failed
+  Missing                   - no implementation exists
+  A feature with sub-parts takes its weakest sub-part's status. Sub-parts that
+  are verified are named next to it.
+Check outcomes: PASSED / FAILED / COULD NOT RUN (blocked) / NOT ATTEMPTED (deliberate)
+
+
+======================================================================
+A. EXECUTIVE SUMMARY
+======================================================================
+
+What the project is
+  An "AI Virtual Shoe Try-On" prototype built in steps. Two INDEPENDENT
+  tracks exist in the repository and share no code:
+    1. frontend/  - a mobile-first React/Vite/TypeScript web app ("Step 5"
+       prototype). It shows a rear-camera preview. With Scan Foot, the user taps
+       one foot, the app freezes that frame, and an on-device
+       MediaPipe MagicTouch interactive-segmentation model highlights a
+       "segmentation candidate" region in green. Everything runs in the
+       browser; no backend.
+    2. main.py + src/ - a Python 3.11 desktop webcam preview (OpenCV window)
+       that overlays MediaPipe Pose Landmarker ankle/heel/toe landmarks.
+
+What can be demonstrated today
+  - Web app (desktop Chromium, verified in this audit with a simulated camera):
+    Start Camera -> live preview -> Scan Foot -> tap -> real model inference in
+    a Web Worker -> green candidate overlay on the frozen frame -> Retry ->
+    second scan -> Stop Camera releases the stream. A denied camera permission
+    shows the correct guidance message.
+  - Real-model smoke test page passes (model + WASM runtime integration).
+  - Python: real pose model loads and runs inference headlessly; 19 unit tests
+    pass.
+  - All automated checks pass: frontend typecheck, lint, 42 tests, production
+    build; Python 19 tests and pip dependency check.
+
+What blocks completion
+  - No shoe try-on exists. A 246-product LOGO Formal catalog inventory exists
+    under data/logo-formal/ with partial gallery coverage and no local photos.
+    Foot pose/scale estimation for placement and shoe rendering are missing. The READMEs
+    say this explicitly ("There is no shoe rendering").
+  - The product scope is undocumented beyond the current step. The README
+    calls the web app "Step 5", but no roadmap or requirements document
+    exists in the repo. Which track (web or Python) is the product path is
+    not stated.
+  - The segmenter is a general-object model. It cannot tell whether a foot is
+    present, which the docs also state. Real-foot accuracy and real phone
+    behavior have not been verified in any recorded check.
+
+Three most important next steps
+  1. TASK-001: Owner decides and documents the MVP scope: what "try-on" means,
+     web vs Python, target devices, and shoe asset source. Everything after
+     step 2 depends on it.
+  2. TASK-002: Verify the current web prototype on a real Android phone and an
+     iPhone over HTTPS, using the checklist in frontend/README.md. Record scan
+     latency, because about 14-17 s per scan was observed in headless desktop
+     Chromium.
+  3. TASK-005..007: Build the first end-to-end try-on on a captured snapshot:
+     derive the foot axis and scale from the mask, load one shoe asset, and
+     render it aligned to the foot.
+
+
+======================================================================
+B. SCOPE AND REQUIREMENTS
+======================================================================
+
+Sources read
+  - README.md (root)              - project overview, Python setup, model setup
+  - frontend/README.md            - web app setup, scan flow, architecture,
+                                    phone testing, deployment, checks
+  - Code and tests (all files listed in section C)
+  - Git history (3 commits, 2026-10-23)
+  - No CLAUDE.md, AGENTS.md, requirements/spec, roadmap, issue tracker, or
+    design documents existed before this audit.
+
+Confirmed requirements (stated in repository docs)
+  R1  Mobile web camera preview: rear-camera preference, Start/Stop, status,
+      permission handling, automatic stream release on stop, tab hide,
+      pagehide and unmount.                          [README.md, frontend/README.md]
+  R2  Scan Foot: tap one visible foot. Capture that exact frame in
+      memory (max 768 px on the long side). Run on-device interactive
+      segmentation and show the candidate mask on the frozen frame. Provide
+      Retry and cancellation. Show geometric advice warnings.
+                                                     [frontend/README.md "Scan one foot"]
+  R3  Privacy: camera frames, taps and masks never leave the device; no
+      analytics, storage or recording.               [frontend/README.md]
+  R4  Honest UX: never present a segmentation candidate as confirmed foot
+      detection.                                     [frontend/README.md]
+  R5  Must work over HTTPS on Android Chrome and iPhone Safari; supported
+      phone testing via Cloudflare Quick Tunnel.     [frontend/README.md]
+  R6  Model assets: pinned, checksum-verified MagicTouch bundle served from
+      the site's own /segmentation/ path; build fails if upstream changes.
+                                                     [frontend/README.md, frontend/scripts/prepare-model.mjs]
+  R7  Deployable to Vercel (Root frontend, npm ci, npm run build, output
+      dist), with no server environment variables.  [frontend/README.md]
+  R8  Python desktop preview showing anatomical left/right foot landmarks
+      (27/29/31, 28/30/32), filtered by visibility/presence >= 0.5, with no
+      stale reuse. Exits on Q/Esc. Missing model exits with code 1.
+                                                     [README.md]
+  R9  Model integration abstracted behind src/segmentation/engine.ts so a
+      future custom foot model can replace it.       [frontend/README.md]
+
+Inferred requirements (from project name and "later step" notes; NOT yet
+confirmed by the owner)
+  I1  Virtual shoe try-on: render a shoe on the user's foot. [project name;
+      README: "No segmentation or shoe rendering is implemented here"]
+  I2  Custom ML / improved close-up foot detection. [README.md: "belong to a
+      later project step"]
+  I3  Shoe selection (catalog) - implied by I1, not mentioned anywhere.
+
+Discrepancies and documentation gaps
+  D1  "Step 5" is referenced, but the step plan (Steps 1-4 and 6+) is not in the
+      repository.
+  D2  Two separate detection approaches (Python pose landmarks vs web
+      interactive segmentation) with no stated relationship. The root README
+      says they are "independent". Neither doc says which one will carry the
+      try-on.
+  D3  Setup docs are Windows/PowerShell-only. This audit validated Linux bash
+      equivalents (section C).
+  D4  frontend/index.html meta description still says "camera preview" and
+      does not mention the scan feature (cosmetic).
+  D5  frontend/README.md states "The project owner reports that the previous
+      mobile camera deployment works". This is not verifiable from the repo:
+      no deployment URL or Vercel config is committed.
+  D6  The root README notes the pose-model weights licence is not
+      established, and the MagicTouch weights licence is not discussed.
+
+Open questions / decisions needed from the owner
+  Q1  What is the MVP "try-on"? A 2D shoe image on a still snapshot, a 3D shoe
+      on a snapshot, or live AR on video?
+  Q2  Which track is the product? Is the web app (frontend/) the product and
+      Python a research prototype to keep or retire? Or should Python become a
+      backend?
+  Q3  What are the remaining steps of the original plan, and where is it kept?
+  Q4  Where do shoe assets come from (own 2D/3D assets, a retailer feed,
+      generated)? What licences apply?
+  Q5  Are foot measurement or size recommendation in scope?
+  Q6  Is any backend, account, catalog service or analytics in scope? The
+      current privacy promise (R3) excludes uploading frames.
+  Q7  What are the target devices, minimum OS/browser versions, and latency
+      targets?
+  Q8  What is the Vercel project and deployment URL, and who owns it?
+  Q9  Is custom model training in scope? If so, what dataset is available?
+
+
+======================================================================
+C. ARCHITECTURE AND LOCAL SETUP
+======================================================================
+
+Stack
+  Web:    React 19, Vite 8, TypeScript 6, @mediapipe/tasks-vision 1.1.1
+          (pinned), Vitest 5 + Testing Library + jsdom, ESLint 10.
+          Node >= 24 required (package.json engines).
+  Python: Python 3.11, opencv-python / opencv-contrib-python 4.11.0.86,
+          mediapipe 0.10.35, numpy 1.26.4 (requirements.txt), unittest.
+  Backend / database / auth: none.
+  Deployment: Vercel (documented only; no config committed). CI: none.
+
+Key directories and files
+  frontend/                        web app (independent npm project)
+    index.html                     HTML entry
+    src/main.tsx                   React entry -> App
+    src/App.tsx                    page shell; renders CameraPreview
+    src/components/CameraPreview.tsx  camera card UI, scan/retry/start/stop
+    src/components/FootSelection.tsx  tap / keyboard selection overlay
+    src/hooks/useCamera.ts         getUserMedia lifecycle + error mapping
+    src/hooks/useFootScan.ts       capture, scan state machine, overlay drawing
+    src/segmentation/geometry.ts   tap -> normalized image point; snapshot size
+    src/segmentation/client.ts     Worker transport, timeout (90 s), fallback
+    src/segmentation/segment.worker.ts  worker running the engine
+    src/segmentation/engine.ts     MediaPipe InteractiveSegmenter adapter
+    src/segmentation/mask.ts       threshold (>=0.5), colouring, warnings
+    scripts/prepare-model.mjs      downloads + SHA-256-verifies model, copies WASM
+    tests/model-smoke.html/.ts     real-model browser smoke test page
+    public/segmentation/           GENERATED (git-ignored) model + wasm
+  main.py                          Python CLI entry (--camera-index, --model)
+  src/camera.py                    OpenCV capture + preview loop
+  src/foot_tracker.py              Pose Landmarker wrapper, filtering, drawing
+  tests/                           Python unittest suite
+  models/                          GENERATED (git-ignored) pose_landmarker_lite.task
+
+Main data flows
+  Web scan flow:
+    Start Camera -> useCamera.start(): isSecureContext and API check ->
+    getUserMedia({video: environment, 1280x720 ideal, audio:false}) -> <video>.
+    Scan Foot -> useFootScan.retry() sets phase "selecting" -> FootSelection
+    overlay -> pointerup/Enter -> geometry.mapTap (object-fit contain, rejects
+    letterbox) -> drawImage of current video frame to canvas (<=768 px) ->
+    getImageData -> SegmentationClient.segment(): Worker (module) +
+    OffscreenCanvas available ? postMessage with transferred pixels :
+    main-thread engine fallback -> engine.createEngine loads
+    /segmentation/wasm + /segmentation/interactive_segmentation.task (CPU) ->
+    InteractiveSegmenter.segment(point) -> Float32 confidence mask ->
+    mask.colorMask threshold 0.5 + warnings -> putImageData onto the frozen
+    canvas -> phase "result". Stop/pagehide/hidden/unmount -> cancel(), which
+    disposes the worker and discards late results.
+  Python flow:
+    main.py -> FootTracker(model) -> run_camera_preview(index, processor) ->
+    each frame: BGR->RGB -> PoseLandmarker.detect_for_video (monotonic ms) ->
+    extract_foot_landmarks (filters) -> mirrored preview + draw -> imshow;
+    Q/Esc exits; camera and model are released in finally / context manager.
+
+Environment variables
+  None are required by either application. The code reads no custom env
+  vars; only Vite's built-in import.meta.env.BASE_URL is used.
+  MPLCONFIGDIR (optional, Python tests only) - points matplotlib's cache into
+  .venv to avoid writing elsewhere; the README sets it.
+  .gitignore reserves frontend/.env.local, but nothing uses it today.
+
+Prerequisites
+  Node.js >= 24 + npm. Audit used Node 26.12.0 and npm 12.2.1.
+  Python 3.11. Audit used 3.11.17. System python3 here is 3.14, which is NOT
+  the pinned version, so use python3.11 explicitly.
+  Internet on first web build/dev run (downloads ~30.5 MB model from Google).
+  Internet once for the Python pose model (~5.6 MB).
+  Optional: cloudflared (phone testing), a webcam, a desktop GUI session for
+  python main.py, and a real Android phone and iPhone.
+
+Local commands (Linux/macOS bash; PowerShell versions are in the READMEs)
+  Web (VALIDATED in this audit):
+    cd frontend
+    npm ci
+    npm run dev            # http://localhost:5173 ; predev prepares model
+    npm run typecheck
+    npm run lint
+    npm test               # 42 tests
+    npm run build          # prebuild prepares model; output frontend/dist
+    npm run test:model     # then open http://localhost:4174/tests/model-smoke.html
+                           # and press "Run model check"
+    npm run preview        # http://localhost:4173 (serves dist)   [NOT run]
+    npm run tunnel         # needs cloudflared                     [NOT run]
+  Python (VALIDATED except where marked):
+    python3.11 -m venv .venv
+    .venv/bin/python -m pip install --upgrade pip
+    .venv/bin/python -m pip install -r requirements.txt
+    mkdir -p models
+    curl -sSfL -o models/pose_landmarker_lite.task \
+      'https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task'
+    sha256sum models/pose_landmarker_lite.task
+      # expect 59929e1d1ee95287735ddd833b19cf4ac46d29bc7afddbbf6753c459690d574a
+    MPLCONFIGDIR=$PWD/.venv/matplotlib .venv/bin/python -m unittest discover -s tests -v
+    .venv/bin/python main.py [--camera-index N] [--model PATH]
+      # opens a GUI window and uses the webcam               [NOT run]
+
+Validated vs inferred
+  Validated: every command above not marked [NOT run].
+  Inferred only: npm run preview + tunnel phone testing, the Vercel build
+  settings, python main.py live window, and the Windows PowerShell commands
+  (not run on this Linux machine).
+
+
+======================================================================
+D. EXISTING WORK AND FEATURE STATUS
+======================================================================
+
+F-01 Web camera preview: start/stop
+  Expected: Start requests the rear camera without audio, shows a live
+    preview with "Camera live" status, and Stop releases all tracks.
+  Status: Verified working (desktop Chromium with simulated camera); real
+    phones unverified.
+  Evidence: headless Chromium 155 with a fake media device. After Start:
+    status "Camera live", video 1280x720 playing, track "fake_device_0:live".
+    After Stop: "Camera off", video.srcObject null. 17 tests in
+    frontend/src/components/CameraPreview.test.tsx pass.
+  Files: frontend/src/hooks/useCamera.ts, frontend/src/components/CameraPreview.tsx
+  Remaining: real-device checks (TASK-002): rear camera actually selected,
+    orientation, camera indicator turns off after Stop.
+
+F-02 Web camera lifecycle (pagehide / tab hidden / unmount / late permission
+     / device disconnect / playback failure)
+  Expected: stream released in every case; a late permission grant is
+    stopped immediately.
+  Status: Implemented but unverified (unit-tested with mocks only).
+  Evidence: CameraPreview.test.tsx cases "releases a late stream after ...",
+    "releases an active stream on ...", "handles a camera disconnected",
+    "cleans up when playback fails", "does not attach an older request".
+    All pass.
+  Remaining: real-device steps 3, 5 and 6 of the frontend/README.md checklist
+    (TASK-002).
+
+F-03 Web camera error messages
+  Expected: actionable messages for denied permission, no camera, busy
+    camera, overconstrained, insecure context and unsupported browser.
+  Status: Implemented but unverified overall. Sub-case "permission denied" is
+    Verified working in a browser; the others are unit-tested only.
+  Evidence: Chromium launched with --use-fake-ui-for-media-stream=deny showed
+    "Camera unavailable" and "Camera permission was denied. Allow camera
+    access in your browser's site settings, then try again." Unit tests cover
+    the other cases.
+  Remaining: recovery through site settings on real phones (TASK-002).
+
+F-04 Scan Foot: tap -> capture -> on-device segmentation -> candidate overlay
+  Expected: tap inside the image; the exact frame freezes; the real model
+    runs in a worker; mask pixels >= 0.5 are drawn in translucent green;
+    taps in the letterbox are ignored.
+  Status: Verified working end to end in desktop Chromium on a synthetic
+    camera feed. NOT verified on phones, and NOT verified with a real foot.
+  Evidence: the browser run tapped the image centre. Status text became
+    "Segmentation Preview - candidate region highlighted in green". The
+    canvas was 768x432 and visible. Network entries show segment.worker.ts
+    loaded once (worker path, not fallback). The first scan, including
+    model load, took 16.9 s. 10 tests in
+    frontend/src/components/FootScan.test.tsx pass.
+  Files: frontend/src/hooks/useFootScan.ts, frontend/src/components/FootSelection.tsx,
+    frontend/src/segmentation/*
+  Remaining: real phones and real feet (TASK-002); latency (TASK-010).
+    Foot identity is NOT detected by design (general segmenter), see F-14.
+
+F-05 Retry / cancel / late-result discard
+  Expected: Retry discards the image, returns to selection, and cancels
+    pending work; late results after Stop/Retry/hide are never drawn.
+  Status: Implemented but unverified overall. Sub-case "Retry after a result"
+    is Verified working in a browser; cancel during pending inference is
+    unit-tested only.
+  Evidence: browser: Retry -> "Tap Foot to Select"; a second scan completed
+    (14.4 s). FootScan.test.tsx "discards late inference after
+    Stop Camera / Retry / unmount / pagehide / hidden" passes.
+
+F-06 Geometric advice warnings
+  Expected: warn on an empty mask, more than 80% of the frame selected, or a
+    mask touching the image edge.
+  Status: Verified working.
+  Evidence: the second browser scan (tap at 15% x of the synthetic feed)
+    showed both "may be background" and "may be incomplete" warnings.
+    mask.test.ts passes (4 tests).
+
+F-07 Keyboard selection (arrow keys + Enter)
+  Status: Implemented but unverified in a browser; unit test passes.
+
+F-08 Main-thread fallback (no Worker/OffscreenCanvas, e.g. older iOS Safari)
+  Status: Implemented but unverified (mock unit test only, client.test.ts).
+  Remaining: exercise on a browser without OffscreenCanvas (TASK-002).
+
+F-09 Model asset preparation and integrity pin
+  Expected: download MagicTouch once, verify SHA-256, copy WASM, and include
+    both in dist/.
+  Status: Verified working.
+  Evidence: npm run build printed "Verified MagicTouch model and copied
+    matching MediaPipe WASM assets". The file is 30,525,312 bytes with
+    sha256 38431bc6...7309b03, which matches the pin. dist/segmentation/
+    contains the model and wasm/. The dev server returned HTTP 200 for
+    /segmentation/interactive_segmentation.task (30,525,312 bytes, no
+    Content-Type header in dev).
+
+F-10 Real-model smoke test page
+  Status: Verified working.
+  Evidence: npm run test:model, then "Run model check" in headless Chromium
+    returned "PASS: real model, 320x240 finite masks, different prompts
+    select 16101 and 74836 pixels". These are the same numbers as the README's
+    2026-10-23 record.
+
+F-11 Production build
+  Status: Verified working (builds). Serving dist via npm run preview was not
+    attempted.
+  Evidence: npm run build exit 0 (section E).
+
+F-12 Phone testing over HTTPS (Cloudflare Quick Tunnel)
+  Status: Implemented but unverified. cloudflared is not installed here and no
+    phone was available.
+
+F-13 Vercel deployment
+  Status: Implemented but unverified. Settings are documented; no vercel.json
+    is committed; deployment URL unknown (Q8). The README records the owner's
+    report that an earlier camera-only deployment works.
+
+F-14 Foot-specific detection (is this actually a foot?)
+  Status: Missing (by design for Step 5). MagicTouch is a general-object
+    segmenter. The docs and UI say so.
+  Remaining: TASK-009.
+
+F-15 Python desktop webcam preview with foot pose landmarks
+  Expected: OpenCV window with mirrored preview, FPS, and left/right
+    ankle/heel/toe markers and status; Q/Esc exits.
+  Status: Implemented but unverified overall (the live window was not run).
+    Sub-parts Verified working: real-model load and inference (headless) and
+    the missing-model error path.
+  Evidence: 19 unit tests pass. With the real model, FootTracker loaded and
+    processed three 1280x720 blank frames; no landmarks were returned, which
+    is correct for a blank frame. draw_foot_landmarks ran. The missing-model
+    path printed the README guidance and exited 1. main.py --help works.
+  Not attempted: python main.py live window. It needs the user's physical
+    webcam and a GUI session; it was skipped to avoid taking over the camera
+    unattended. Successful foot detection on real feet is unverified; the
+    README itself records that none passed filtering in its live sample.
+  Files: main.py, src/camera.py, src/foot_tracker.py, tests/
+
+F-16 Shoe catalog / shoe selection             Status: Missing
+F-17 Foot pose, scale and orientation for placement  Status: Missing
+       (the web app returns only a binary-ish mask; Python returns 3 points per
+       foot; nothing derives heel-toe axis, width or scale)
+F-18 Shoe rendering / overlay (2D or 3D)       Status: Missing
+F-19 Live (continuous) try-on on video         Status: Missing (the web app is
+       snapshot-only by design; the Python app is live, but landmarks only)
+F-20 Backend, persistence, accounts            Status: Missing / not in
+       documented scope (Q6)
+F-21 Continuous integration                    Status: Missing (no CI workflow)
+
+Completed work already in the repository (from git history)
+  d187ccc  Initial commit (README stub).
+  db79169  Python webcam preview + Pose Landmarker foot tracking with tests,
+           and the React camera preview app with lifecycle and error handling
+           and tests.
+  97c9954  On-device foot scan: MagicTouch segmentation via worker, tap
+           mapping, mask rendering and warnings, model prep script, smoke
+           test page, and tests.
+
+
+======================================================================
+E. VERIFICATION RESULTS (2026-11-21, Linux, Node 26.12.0, Python 3.11.17,
+   Chromium 155.0.8059.84 headless)
+======================================================================
+
+ #  Check                         Command / steps                                Result
+ 1  Frontend install              cd frontend && npm ci                         PASSED (231 pkgs; npm reports
+                                                                                9 moderate vulns, see #8)
+ 2  Typecheck                     npm run typecheck                             PASSED (exit 0)
+ 3  Lint                          npm run lint                                  PASSED (exit 0, no warnings)
+ 4  Unit/component tests          npm test                                      PASSED 5 files, 42 tests
+ 5  Production build              npm run build                                 PASSED; dist/ has index.html, assets/,
+                                                                                segmentation/ (model + wasm)
+ 6  Model checksum                sha256sum public/segmentation/*.task          PASSED, matches pinned checksum
+ 7  Real-model smoke              npm run test:model; open                      PASSED "16101 and 74836 pixels"
+                                  localhost:4174/tests/model-smoke.html;
+                                  click Run model check (headless Chromium)
+ 8  npm audit                     npm audit                                     9 moderate, ALL dev-only: minimatch
+                                                                                ReDoS via eslint / typescript-eslint.
+                                                                                No runtime dependency affected.
+ 9  Python install                python3.11 -m venv .venv; pip install -r      PASSED
+                                  requirements.txt; pip check                   ("No broken requirements")
+10  Python tests                  MPLCONFIGDIR=... python -m unittest           PASSED 19 tests (OpenCV 4.11.0,
+                                  discover -s tests -v                          MediaPipe 0.10.35, NumPy 1.26.4)
+11  Pose model download           curl ... models/pose_landmarker_lite.task     PASSED sha256 matches README
+12  Python real model headless    scripted FootTracker on 3 blank frames +      PASSED (loads, infers, no false
+                                  draw; FootTracker on missing path             landmarks; missing-model message)
+13  Python CLI errors             python main.py --help;                        PASSED (exit 1 and guidance on
+                                  python main.py --model models/nope.task       a missing model)
+14  Web flow: camera              npm run dev; headless Chromium                PASSED (see F-01)
+                                  --use-fake-device-for-media-stream
+                                  --use-fake-ui-for-media-stream, 412x915
+                                  mobile viewport; click Start, then Stop
+15  Web flow: scan                same session: Scan Foot -> pointerup at       PASSED (first scan 16.9 s incl. model
+                                  image centre -> wait for result -> Retry      load; second scan 14.4 s; both warnings
+                                  -> tap at 15%/50% -> wait -> Stop             shown on the second; Stop released stream)
+16  Web flow: permission denied   Chromium --use-fake-ui-for-media-stream=deny  PASSED (correct message, F-03)
+17  python main.py live window    -                                             NOT ATTEMPTED (would use the
+                                                                                physical webcam + GUI unattended)
+18  npm run preview / tunnel      -                                             NOT ATTEMPTED (preview) /
+                                                                                COULD NOT RUN (cloudflared absent)
+19  Real Android / iPhone         -                                             COULD NOT RUN (no device)
+20  Vercel deployment             -                                             COULD NOT RUN (no URL/config, Q8)
+21  Windows PowerShell commands   -                                             COULD NOT RUN (Linux machine)
+22  Real-foot accuracy            -                                             NOT ATTEMPTED (needs a human foot
+                                                                                in front of a camera)
+
+How to reproduce checks 14-16
+  The browser checks used a throwaway Chrome DevTools Protocol script, which
+  is not committed (see TASK-016). To repeat manually: run
+  `chromium --use-fake-device-for-media-stream --use-fake-ui-for-media-stream
+  http://localhost:5173` with `npm run dev` running in frontend/, then click
+  through the flow. For the denied case use
+  `--use-fake-ui-for-media-stream=deny`.
+
+Limitations affecting confidence
+  - Chromium's fake camera is a synthetic green test pattern. It proves the
+    pipeline runs and renders, not that a foot is segmented well.
+  - Headless desktop Chromium is not a phone. Mobile Safari behaviour,
+    orientation, memory limits and real rear-camera selection are untested.
+  - Scan latency (14-17 s) was measured in headless Chromium on this desktop
+    with the CPU delegate. It may not represent phones (could be better or
+    worse). It is a risk, not a confirmed defect. The second scan reused the
+    worker and model (worker loaded once), so inference itself dominates.
+  - No confirmed failures (Broken) were found in this audit.
+
+Generated, git-ignored artifacts left on disk by this audit
+  .venv/, models/pose_landmarker_lite.task, frontend/node_modules/,
+  frontend/public/segmentation/, frontend/dist/, frontend/model-check-dist/,
+  src/__pycache__/, tests/__pycache__/. `git status` remains clean.
+
+
+======================================================================
+F. COMPLETION BACKLOG (ordered: prerequisites first)
+======================================================================
+
+--- Confirmed / scope-defining work -----------------------------------
+
+TASK-001  [P0]  Define and document MVP scope and roadmap
+  Problem: Only "Step 5" is documented. The try-on itself, the product track
+    (web vs Python), targets and the asset source are undefined (Q1-Q9).
+  Impact: Feature work beyond the prototype cannot be specified or accepted.
+  Files: README.md, new docs/requirements.md (or equivalent), compreport.txt
+  Depends on: owner input.
+  Acceptance criteria:
+    - A committed requirements document lists every MVP feature with
+      measurable acceptance criteria, target devices/browsers, and latency
+      targets.
+    - Q1, Q2, Q4, Q7 are answered; the others are answered or explicitly
+      deferred.
+    - Section B of this report is updated, and inferred items I1-I3 are
+      either confirmed or removed.
+
+TASK-002  [P0]  Verify the current web prototype on real phones
+  Problem: No recorded real-device run of camera + scan (R1, R2, R5).
+  Impact: The core platform promise is unproven; scan latency on phones is
+    unknown.
+  Files: frontend/README.md (checklist lines 197-209), compreport.txt
+  Depends on: an Android phone, an iPhone, and an HTTPS URL (tunnel with
+    cloudflared, or the Vercel deployment from TASK-003).
+  Acceptance criteria:
+    - All 6 camera checks and all Step 5 checks in frontend/README.md are
+      recorded as pass/fail in section E, with device model, OS and browser
+      versions.
+    - First-scan and repeat-scan latency are recorded per device.
+    - On at least one device without OffscreenCanvas (or with it forced off),
+      the fallback path (F-08) completes a scan, or its failure is recorded.
+    - Any failure becomes a new TASK with repro steps.
+
+TASK-003  [P1]  Confirm or create the deployment
+  Problem: The Vercel deployment is referenced but unverifiable (D5, Q8).
+  Files: frontend/README.md; optionally frontend/vercel.json
+  Depends on: owner access to Vercel (Q8).
+  Acceptance criteria:
+    - The deployment URL and deployed commit SHA are recorded here.
+    - /segmentation/interactive_segmentation.task returns 30,525,312 bytes of
+      binary data (not HTML).
+    - /segmentation/wasm/*.js and *.wasm return JS and WASM.
+    - The deployed commit equals main HEAD.
+
+TASK-004  [P1]  Verify or retire the Python desktop track
+  Problem: The live window has never been verified with landmarks on real feet
+    (F-15). Its role is undefined (Q2).
+  Files: main.py, src/, tests/, README.md
+  Depends on: TASK-001 decision; a desktop session with a webcam.
+  Acceptance criteria (if kept):
+    - python main.py opens the window, shows FPS, and Q/Esc exits with code 0.
+    - In a full-body stance with both feet visible, at least one foot reports
+      "detected (3/3)". Screenshot and conditions are recorded.
+  Acceptance criteria (if retired):
+    - The code is removed or moved to an archive folder, the README is
+      updated, and the tests are adjusted.
+
+--- Inferred try-on requirements (confirm in TASK-001 first) ----------
+
+TASK-005  [P1]  Foot geometry for placement
+  Problem: Nothing derives foot axis, heel/toe or scale from the mask or
+    landmarks (F-17).
+  Files: new frontend/src/segmentation/footGeometry.ts (+ test), or the
+    Python equivalent, depending on TASK-001.
+  Depends on: TASK-001.
+  Acceptance criteria:
+    - A pure function returns heel point, toe point, axis angle, length and
+      width in pixels from a CandidateMask.
+    - Unit tests on synthetic masks pass.
+    - On a labelled set of >= 20 real foot photos, the axis angle error is
+      <= the TASK-001 tolerance (default proposal: 10 degrees) and the length
+      error is <= 10%.
+
+TASK-006  [P1]  Shoe assets and selection UI
+  Problem: No shoe catalog or assets exist (F-16).
+  Files: new frontend/src/catalog/*, asset folder, licence notes
+  Depends on: TASK-001 (Q4: 2D vs 3D, source, licences).
+  Acceptance criteria:
+    - >= 3 shoes are selectable in the UI.
+    - Each asset loads without error and has a recorded licence/source.
+    - Selection persists across Retry within a session.
+    - Component tests cover the selection.
+
+TASK-007  [P1]  Render the selected shoe on the scanned foot (snapshot MVP)
+  Problem: The core try-on outcome is missing (F-18).
+  Files: frontend/src/hooks/useFootScan.ts, new renderer module, tests
+  Depends on: TASK-005, TASK-006.
+  Acceptance criteria:
+    - After a scan, the selected shoe is drawn on the frozen frame, aligned
+      to the foot axis and scaled to the foot length.
+    - The overlay stays aligned after device rotation.
+    - Retry and Stop clear it.
+    - The UI labels it as an approximation.
+    - A browser test proves rendering on a fixture image.
+    - Verified on the TASK-002 devices.
+
+TASK-008  [P2]  Live try-on on video (only if Q1 requires it)
+  Depends on: TASK-007, TASK-010.
+  Acceptance criteria: the shoe overlay follows the foot at >= the TASK-001
+    FPS target (default proposal: 15 FPS) on the reference phones, and camera
+    and model resources are released on Stop/hide.
+
+TASK-009  [P2]  Foot-specific detection (replace or augment the general
+                segmenter)
+  Problem: The current model cannot tell a foot from background (F-14, I2).
+  Files: frontend/src/segmentation/engine.ts (adapter boundary), model
+    assets, the prepare script checksum.
+  Depends on: TASK-001 (Q9), a dataset.
+  Acceptance criteria:
+    - On a held-out labelled set, mean IoU >= the agreed target.
+    - "No foot" images are rejected at >= the agreed rate.
+    - The model is pinned by checksum.
+    - The smoke test is updated.
+
+--- Optional improvements ---------------------------------------------
+
+TASK-010  [P2]  Measure and reduce scan latency
+  Problem: 14-17 s per scan observed in headless desktop Chromium (E #15).
+  Files: frontend/src/segmentation/engine.ts (delegate), useFootScan.ts
+    (snapshot size)
+  Depends on: TASK-002 measurements.
+  Acceptance criteria: repeat-scan latency on the reference phones is <= the
+    TASK-001 target (default proposal: 3 s), measured and recorded in E.
+
+TASK-011  [P2]  Continuous integration
+  Acceptance criteria: a GitHub Actions workflow on push/PR runs npm ci,
+    typecheck, lint, test and build (frontend) plus the Python unittest suite.
+    A green run on main is linked here.
+
+TASK-012  [P3]  Dev-dependency security hygiene
+  Acceptance criteria: npm audit reports 0 moderate-or-higher issues, and
+    all checks in section E #2-#7 still pass.
+
+TASK-013  [P3]  Cross-platform setup docs
+  Acceptance criteria: the README files include bash equivalents (section C)
+    next to the PowerShell commands, validated on Linux or macOS.
+
+TASK-014  [P3]  Update the stale meta description (D4)
+  Acceptance criteria: frontend/index.html description mentions the foot
+    scan, and the build passes.
+
+TASK-015  [P3]  Model weight licensing (D6)
+  Acceptance criteria: the licence source for the MagicTouch and Pose
+    Landmarker weights is recorded in the READMEs, or the owner accepts the
+    risk in writing in this report.
+
+TASK-016  [P3]  Commit an automated browser E2E test
+  Problem: The browser checks E #14-#16 were run with a throwaway script.
+  Acceptance criteria: an npm script (e.g. Playwright with a Chromium fake
+    camera) runs start -> scan -> result -> retry -> stop and the
+    permission-denied flow, passes locally, and runs in CI (TASK-011).
+
+No completion percentage is given: the try-on scope is undefined until
+TASK-001 is done.
+
+
+======================================================================
+G. DATED WORK LOG (append-only; newest at bottom)
+======================================================================
+
+2026-11-21  Initial audit (Claude Code, lead-engineer handoff)
+  Scope: whole repository at commit 97c9954 (main, clean tree). Read
+    README.md, frontend/README.md, all source, tests, configs and git
+    history. No CLAUDE.md/AGENTS.md existed.
+  Checks run: npm ci, typecheck, lint, 42 tests, build, model checksum,
+    npm audit/outdated, real-model smoke test (headless Chromium), browser
+    camera + scan + retry + stop flow and permission-denied flow with a
+    fake camera; Python venv + requirements + pip check, 19 unit tests, pose
+    model download + checksum, real-model headless inference, CLI error
+    paths. Full results in section E.
+  Findings: all automated checks pass; the web scan pipeline works end to
+    end with the real model in desktop Chromium; no broken features found.
+    The try-on itself (catalog, placement, rendering) is missing. The scope
+    beyond "Step 5" is undocumented. The web and Python tracks are
+    disconnected. There is no real-device, real-foot or deployment
+    verification. npm audit has 9 moderate dev-only issues. Headless scan
+    latency is 14-17 s.
+  Changes: created compreport.txt and CLAUDE.md (workflow instruction). No
+    source changes. Generated git-ignored artifacts only (listed in E).
+  Next steps: TASK-001 (owner scope decisions), TASK-002 (real phones),
+    then TASK-005 -> TASK-006 -> TASK-007.
+
+2026-11-21  LOGO Formal catalog collection (partial)
+  Source: https://www.logoofficial.com/collections/formal
+  Outputs: data/logo-formal/products.json, image-manifest.csv,
+    collection-report.txt and images/ under data/logo-formal/.
+  Verification: four live pages; 246 unique products match the displayed
+    collection count and the 246 JSON records. Captured 72 default-gallery
+    zoom URLs from 15 canonical product pages. JSON and CSV agree.
+  Current status: TASK-006 catalog data collection partially implemented.
+    There are 0 local dataset photos and 246 unverified top-view statuses.
+    Direct requests returned HTTP 429. Photo reuse permission is unclear.
+  Next action: capture the 231 pending product galleries, verify variants,
+    identify distinct and overhead photos, and confirm photo reuse permission.
+    See collection-report.txt for gaps by URL.
+
+2026-11-21  LOGO Formal Phase 1 resume checkpoint
+  Read the catalog, manifest, collection report and project work log.
+  Reopen attempt: https://www.logoofficial.com/products/2649-bka
+  The host returned HTTP 429 at 14:19:30 PKT with Retry-After: 60.
+  Stopped requests to the host immediately and recorded the exact 246
+  pending URLs in data/logo-formal/collection-report.txt.
+  Validation: retained 246 products, 72 URL-only references, 0 local files
+  and 0 fully verified galleries. JSON and CSV track public reuse separately.
+  Next action: resume with the 15 previously captured galleries after the
+    host allows requests, then proceed to the 231 first captures.
+
+2026-11-21  LOGO Formal alternate photo source
+  SastaScene linked the exact Higrove main asset to Shopify's photo CDN.
+  Verified the shared asset identity by filename, version and article code.
+  Retrieved the already captured zoom paths via the Shopify CDN, while
+    leaving the LOGO storefront rate-limit checkpoint in place.
+  Product records: 246. Actual image files: 72. URL-only: 0.
+  Full product galleries verified against color options: 0. Products with
+    visually confirmed overhead images: 9. First candidate: none.
+  Content duplicates removed: none.
+  Public reuse permission remains unverified. Photos were saved locally only.
+  Daraz did not verify any exact gallery. Brandir surfaced individual photos
+    but did not provide full galleries. Nexora returned HTTP 429.
+  Remaining work: recheck the 15 product galleries for variant completeness
+    and capture the remaining 231 galleries. See the prior URL checkpoint.
+
+2026-11-21  Hi-Street Phase 1 collection checkpoint
+  Source: https://histreet.pk/collections/casual-shoes
+  Cached page showed 16 visible products and a Show More button. The first
+    live collection request returned HTTP 429 at 14:29:23 PKT with
+    Retry-After: 60 seconds. Requests to histreet.pk stopped immediately.
+  Outputs: data/histreet/products.json, image-manifest.csv, and
+    collection-report.txt. There are 0 local images, 0 URL-only references,
+    and 0 verified galleries. The LOGO dataset was preserved.
+  Next action: reopen the exact casual collection URL and enumerate its
+    product URLs through the terminal batch before auditing galleries.

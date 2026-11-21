@@ -1,0 +1,552 @@
+LOGO Formal collection audit — 2026-11-21
+
+Source: https://www.logoofficial.com/collections/formal
+Live browser audit followed Next through pages 1–4, waiting for the collection grid.
+Page 4 displayed six collection cards and no Next link. Best Sellers was excluded.
+Live filter count: 246. Cards per page: 80, 80, 80, 6. Unique collection links: 246.
+Earlier crawler snapshots reported 239 and 270; the inventory uses the live browser only.
+Product records: 246. Set discrepancy against collected collection handles: 0.
+Canonical product paths are verified for the 15 opened products and derived from the store URL pattern for the remaining 231.
+
+Product pages with default zoom gallery URLs captured: 15.
+Product galleries fully verified including variants, content deduplication and visual review: 0.
+Products with incomplete gallery verification: 246 (231 gallery pages pending).
+Image references: 72 unique within their product by URL (photo distinctness unverified).
+Downloaded into dataset: 0. URL-only: 72. Image download failures: 0.
+One temporary transport sample decoded as a 1800 × 2700 JPEG.
+URL-only reason: LOGO photo reuse permission could not be established from its published policies.
+Observed policy page: https://www.logoofficial.com/pages/policies
+Top-view status: 0 found, 0 missing, 246 unverified. No angles were assigned.
+JSON and CSV checks: unique product handles, unique image URLs per product, matching image IDs and source URLs.
+
+The shell could not resolve the origin in the default sandbox. A direct request
+with external network access received HTTP 429 twice, including after backing off.
+A canonical product-page request on that route also received HTTP 429.
+The in-app browser could access the collection and the first 15 product pages.
+
+Remaining actions by product
+https://www.logoofficial.com/products/2649-bka | 5 captured | 0 local | Compare zoom assets by content, confirm product/color coverage and visually classify angles.
+https://www.logoofficial.com/products/2649-bra | 5 captured | 0 local | Compare zoom assets by content, confirm product/color coverage and visually classify angles.
+https://www.logoofficial.com/products/2631-bka | 5 captured | 0 local | Compare zoom assets by content, confirm product/color coverage and visually classify angles.
+https://www.logoofficial.com/products/25011-black | 5 captured | 0 local | Compare zoom assets by content, confirm product/color coverage and visually classify angles.
+https://www.logoofficial.com/products/2612-brown | 5 captured | 0 local | Compare zoom assets by content, confirm product/color coverage and visually classify angles.
+https://www.logoofficial.com/products/2639-bka | 5 captured | 0 local | Compare zoom assets by content, confirm product/color coverage and visually classify angles.
+https://www.logoofficial.com/products/10079-bkm | 2 captured | 0 local | Compare zoom assets by content, confirm product/color coverage and visually classify angles.
+https://www.logoofficial.com/products/25005-black | 5 captured | 0 local | Compare zoom assets by content, confirm product/color coverage and visually classify angles.
+https://www.logoofficial.com/products/2508-bka | 5 captured | 0 local | Compare zoom assets by content, confirm product/color coverage and visually classify angles.
+https://www.logoofficial.com/products/12005-bkp | 5 captured | 0 local | Compare zoom assets by content, confirm product/color coverage and visually classify angles.
+https://www.logoofficial.com/products/2925-bka | 5 captured | 0 local | Compare zoom assets by content, confirm product/color coverage and visually classify angles.
+https://www.logoofficial.com/products/23057-tan | 5 captured | 0 local | Compare zoom assets by content, confirm product/color coverage and visually classify angles.
+https://www.logoofficial.com/products/2619-bka | 5 captured | 0 local | Compare zoom assets by content, confirm product/color coverage and visually classify angles.
+https://www.logoofficial.com/products/23064-black | 5 captured | 0 local | Compare zoom assets by content, confirm product/color coverage and visually classify angles.
+https://www.logoofficial.com/products/2623-bra | 5 captured | 0 local | Compare zoom assets by content, confirm product/color coverage and visually classify angles.
+https://www.logoofficial.com/products/23054-brown | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10027-bra | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11019-bka | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11008-bra | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/1079-mra | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10036-mrw | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10096-bkw | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/1064-brm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11040-bra | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11009-mra | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10090-bkc | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10027-bka | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/1047-brm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/1089-mra | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10090-brc | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/1078-bkc | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10021-brm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10024-brm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10054-bkm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2615-black | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/1047-bkm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10041-bkw | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/1091-brm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2613-black | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11081-bkj | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/1074-brm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/1077-bkm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10033-brw | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11018-brm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/9103-bra | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11085-brw | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10099-brm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11023-bra | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11009-bkm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10048-bkc | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10056-bkm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10085-bkc | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10056-brm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/9103-bka | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10084-brm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/12075-brm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11094-blw | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2613-brown | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11005-bkw | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11093-bka | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/9560-bra | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10024-bkm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10049-bkc | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10016-bkm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10040-brw | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10054-brm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11093-bra | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10046-bkc | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/13063-bka | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10096-brw | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2614-brown | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2527-black | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11029-brs | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/1098-brc | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10098-bkm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/12079-bra | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/12075-bkm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10098-brm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2523-brown | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11028-bkm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2523-black | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10088-bkw | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11056-brm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11050-bka | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11056-bkm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2618-black | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/9560-bka | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/1094-grn | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/22007-brown | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10063-brm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10057-mra | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/1098-bkc | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11003-bkm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/13007-grm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10093-bra | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10076-brw | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/12093-grm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11023-bka | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11072-bka | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11054-brm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11073-brm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10033-bkw | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10040-bkw | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2526-brown | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11070-bra | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2524-brown | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11079-bkc | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10034-bkw | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2612-black | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/25001-black | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11096-bkm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/12089-bkc | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2617-brown | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/13037-bkc | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/12039-grs | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10035-bkw | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2614-black | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/12006-grs | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11089-bra | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/12001-bks | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/12099-gra | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11092-brw | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10036-bkw | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/12093-tan | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/12079-bka | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11027-bkm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/12039-bls | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11004-bra | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2527-brown | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2511-bka | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/12093-bkm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11078-bkj | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/13000-grs | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2625-bka | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2508-bra | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11049-bka | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/9452-bkw | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2618-brown | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11061-grc | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2521-brown | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/12038-brc | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/12060-bkw | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/13005-grs | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/25014-black | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11083-brc | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/1074-bkm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11005-brw | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/1043-bkm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/13009-grm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/12074-bkm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2524-black | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/22007-black | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/25009-black | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/13015-brw | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10037-bkw | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2623-bka | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10025-brm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/13037-tnc | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/13022-bkc | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/22005-black | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/23057-brown | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2619-bra | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2503-bka | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10041-brw | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/23057-black | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/23053-tan | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/13010-brm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2615-brown | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/22005-brown | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/25016-black | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11080-bra | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2511-bra | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2507-bra | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10053-brw | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/12091-gys | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11044-bkc | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/13057-bkf | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2906-brown | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/25009-brown | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/12091-bgs | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/12087-bka | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/23056-black | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2617-black | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2904-black | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/13019-bkm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2906-black | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11044-brc | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2501-bra | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11097-bka | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/13063-bra | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/22003-brown | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/13010-bkm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2509-bkm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2526-black | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10025-bkm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/13018-tns | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/13054-mrc | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2521-black | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/13015-bkw | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/13025-bkw | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2509-brm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2629-bkm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/23060-brown | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/11097-gra | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/12095-bra | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2625-bra | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/22003-black | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/23053-brown | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/13019-brm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/13041-brw | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/13007-tan | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/23066-brown | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10035-blw | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2507-bka | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/23054-tan | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/13061-brf | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2913-bkp | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/23062-brown | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/13036-brc | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/23066-black | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/13055-bra | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/13024-bka | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/13036-bkc | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/13012-gry | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2504-bra | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/23054-black | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/25005-brown | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/12091-wht | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/13056-bkp | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/23062-black | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2911-bka | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/12091-bls | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/10083-brm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2611-bra | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/23064-brown | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2637-bkm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/23051-brown | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/23051-black | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2910-bka | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2510-bkm | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/25007-tan | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2923-bka | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2501-bka | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/23065-brown | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/2925-bra | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+https://www.logoofficial.com/products/23065-black | 0 captured | 0 local | Open product page and capture ordered zoom gallery and variants.
+
+Phase 1 resume checkpoint — 2026-11-21 14:19:30 PKT
+
+First canonical product requested: https://www.logoofficial.com/products/2649-bka
+Response: HTTP 429. Retry-After: 60 seconds.
+Earliest retry per header: 2026-11-21 14:20:30 PKT.
+Requests to www.logoofficial.com stopped immediately. No alternate access
+route was used after the response. The product page did not open.
+
+Product records preserved: 246. Actual image files saved: 0.
+URL-only image references: 72. Products with fully verified galleries: 0.
+Top-view statuses: 246 unverified. First try-on candidate: none selected.
+JSON and CSV agree on product handles, image IDs, source URLs and download
+status. Public reuse status has its own manifest fields. No photos published.
+
+Pending product URLs in resume order (15 gallery reopens, then 231 first captures)
+https://www.logoofficial.com/products/2649-bka | rate_limited
+https://www.logoofficial.com/products/2649-bra | pending_reopen
+https://www.logoofficial.com/products/2631-bka | pending_reopen
+https://www.logoofficial.com/products/25011-black | pending_reopen
+https://www.logoofficial.com/products/2612-brown | pending_reopen
+https://www.logoofficial.com/products/2639-bka | pending_reopen
+https://www.logoofficial.com/products/10079-bkm | pending_reopen
+https://www.logoofficial.com/products/25005-black | pending_reopen
+https://www.logoofficial.com/products/2508-bka | pending_reopen
+https://www.logoofficial.com/products/12005-bkp | pending_reopen
+https://www.logoofficial.com/products/2925-bka | pending_reopen
+https://www.logoofficial.com/products/23057-tan | pending_reopen
+https://www.logoofficial.com/products/2619-bka | pending_reopen
+https://www.logoofficial.com/products/23064-black | pending_reopen
+https://www.logoofficial.com/products/2623-bra | pending_reopen
+https://www.logoofficial.com/products/23054-brown | pending_initial_capture
+https://www.logoofficial.com/products/10027-bra | pending_initial_capture
+https://www.logoofficial.com/products/11019-bka | pending_initial_capture
+https://www.logoofficial.com/products/11008-bra | pending_initial_capture
+https://www.logoofficial.com/products/1079-mra | pending_initial_capture
+https://www.logoofficial.com/products/10036-mrw | pending_initial_capture
+https://www.logoofficial.com/products/10096-bkw | pending_initial_capture
+https://www.logoofficial.com/products/1064-brm | pending_initial_capture
+https://www.logoofficial.com/products/11040-bra | pending_initial_capture
+https://www.logoofficial.com/products/11009-mra | pending_initial_capture
+https://www.logoofficial.com/products/10090-bkc | pending_initial_capture
+https://www.logoofficial.com/products/10027-bka | pending_initial_capture
+https://www.logoofficial.com/products/1047-brm | pending_initial_capture
+https://www.logoofficial.com/products/1089-mra | pending_initial_capture
+https://www.logoofficial.com/products/10090-brc | pending_initial_capture
+https://www.logoofficial.com/products/1078-bkc | pending_initial_capture
+https://www.logoofficial.com/products/10021-brm | pending_initial_capture
+https://www.logoofficial.com/products/10024-brm | pending_initial_capture
+https://www.logoofficial.com/products/10054-bkm | pending_initial_capture
+https://www.logoofficial.com/products/2615-black | pending_initial_capture
+https://www.logoofficial.com/products/1047-bkm | pending_initial_capture
+https://www.logoofficial.com/products/10041-bkw | pending_initial_capture
+https://www.logoofficial.com/products/1091-brm | pending_initial_capture
+https://www.logoofficial.com/products/2613-black | pending_initial_capture
+https://www.logoofficial.com/products/11081-bkj | pending_initial_capture
+https://www.logoofficial.com/products/1074-brm | pending_initial_capture
+https://www.logoofficial.com/products/1077-bkm | pending_initial_capture
+https://www.logoofficial.com/products/10033-brw | pending_initial_capture
+https://www.logoofficial.com/products/11018-brm | pending_initial_capture
+https://www.logoofficial.com/products/9103-bra | pending_initial_capture
+https://www.logoofficial.com/products/11085-brw | pending_initial_capture
+https://www.logoofficial.com/products/10099-brm | pending_initial_capture
+https://www.logoofficial.com/products/11023-bra | pending_initial_capture
+https://www.logoofficial.com/products/11009-bkm | pending_initial_capture
+https://www.logoofficial.com/products/10048-bkc | pending_initial_capture
+https://www.logoofficial.com/products/10056-bkm | pending_initial_capture
+https://www.logoofficial.com/products/10085-bkc | pending_initial_capture
+https://www.logoofficial.com/products/10056-brm | pending_initial_capture
+https://www.logoofficial.com/products/9103-bka | pending_initial_capture
+https://www.logoofficial.com/products/10084-brm | pending_initial_capture
+https://www.logoofficial.com/products/12075-brm | pending_initial_capture
+https://www.logoofficial.com/products/11094-blw | pending_initial_capture
+https://www.logoofficial.com/products/2613-brown | pending_initial_capture
+https://www.logoofficial.com/products/11005-bkw | pending_initial_capture
+https://www.logoofficial.com/products/11093-bka | pending_initial_capture
+https://www.logoofficial.com/products/9560-bra | pending_initial_capture
+https://www.logoofficial.com/products/10024-bkm | pending_initial_capture
+https://www.logoofficial.com/products/10049-bkc | pending_initial_capture
+https://www.logoofficial.com/products/10016-bkm | pending_initial_capture
+https://www.logoofficial.com/products/10040-brw | pending_initial_capture
+https://www.logoofficial.com/products/10054-brm | pending_initial_capture
+https://www.logoofficial.com/products/11093-bra | pending_initial_capture
+https://www.logoofficial.com/products/10046-bkc | pending_initial_capture
+https://www.logoofficial.com/products/13063-bka | pending_initial_capture
+https://www.logoofficial.com/products/10096-brw | pending_initial_capture
+https://www.logoofficial.com/products/2614-brown | pending_initial_capture
+https://www.logoofficial.com/products/2527-black | pending_initial_capture
+https://www.logoofficial.com/products/11029-brs | pending_initial_capture
+https://www.logoofficial.com/products/1098-brc | pending_initial_capture
+https://www.logoofficial.com/products/10098-bkm | pending_initial_capture
+https://www.logoofficial.com/products/12079-bra | pending_initial_capture
+https://www.logoofficial.com/products/12075-bkm | pending_initial_capture
+https://www.logoofficial.com/products/10098-brm | pending_initial_capture
+https://www.logoofficial.com/products/2523-brown | pending_initial_capture
+https://www.logoofficial.com/products/11028-bkm | pending_initial_capture
+https://www.logoofficial.com/products/2523-black | pending_initial_capture
+https://www.logoofficial.com/products/10088-bkw | pending_initial_capture
+https://www.logoofficial.com/products/11056-brm | pending_initial_capture
+https://www.logoofficial.com/products/11050-bka | pending_initial_capture
+https://www.logoofficial.com/products/11056-bkm | pending_initial_capture
+https://www.logoofficial.com/products/2618-black | pending_initial_capture
+https://www.logoofficial.com/products/9560-bka | pending_initial_capture
+https://www.logoofficial.com/products/1094-grn | pending_initial_capture
+https://www.logoofficial.com/products/22007-brown | pending_initial_capture
+https://www.logoofficial.com/products/10063-brm | pending_initial_capture
+https://www.logoofficial.com/products/10057-mra | pending_initial_capture
+https://www.logoofficial.com/products/1098-bkc | pending_initial_capture
+https://www.logoofficial.com/products/11003-bkm | pending_initial_capture
+https://www.logoofficial.com/products/13007-grm | pending_initial_capture
+https://www.logoofficial.com/products/10093-bra | pending_initial_capture
+https://www.logoofficial.com/products/10076-brw | pending_initial_capture
+https://www.logoofficial.com/products/12093-grm | pending_initial_capture
+https://www.logoofficial.com/products/11023-bka | pending_initial_capture
+https://www.logoofficial.com/products/11072-bka | pending_initial_capture
+https://www.logoofficial.com/products/11054-brm | pending_initial_capture
+https://www.logoofficial.com/products/11073-brm | pending_initial_capture
+https://www.logoofficial.com/products/10033-bkw | pending_initial_capture
+https://www.logoofficial.com/products/10040-bkw | pending_initial_capture
+https://www.logoofficial.com/products/2526-brown | pending_initial_capture
+https://www.logoofficial.com/products/11070-bra | pending_initial_capture
+https://www.logoofficial.com/products/2524-brown | pending_initial_capture
+https://www.logoofficial.com/products/11079-bkc | pending_initial_capture
+https://www.logoofficial.com/products/10034-bkw | pending_initial_capture
+https://www.logoofficial.com/products/2612-black | pending_initial_capture
+https://www.logoofficial.com/products/25001-black | pending_initial_capture
+https://www.logoofficial.com/products/11096-bkm | pending_initial_capture
+https://www.logoofficial.com/products/12089-bkc | pending_initial_capture
+https://www.logoofficial.com/products/2617-brown | pending_initial_capture
+https://www.logoofficial.com/products/13037-bkc | pending_initial_capture
+https://www.logoofficial.com/products/12039-grs | pending_initial_capture
+https://www.logoofficial.com/products/10035-bkw | pending_initial_capture
+https://www.logoofficial.com/products/2614-black | pending_initial_capture
+https://www.logoofficial.com/products/12006-grs | pending_initial_capture
+https://www.logoofficial.com/products/11089-bra | pending_initial_capture
+https://www.logoofficial.com/products/12001-bks | pending_initial_capture
+https://www.logoofficial.com/products/12099-gra | pending_initial_capture
+https://www.logoofficial.com/products/11092-brw | pending_initial_capture
+https://www.logoofficial.com/products/10036-bkw | pending_initial_capture
+https://www.logoofficial.com/products/12093-tan | pending_initial_capture
+https://www.logoofficial.com/products/12079-bka | pending_initial_capture
+https://www.logoofficial.com/products/11027-bkm | pending_initial_capture
+https://www.logoofficial.com/products/12039-bls | pending_initial_capture
+https://www.logoofficial.com/products/11004-bra | pending_initial_capture
+https://www.logoofficial.com/products/2527-brown | pending_initial_capture
+https://www.logoofficial.com/products/2511-bka | pending_initial_capture
+https://www.logoofficial.com/products/12093-bkm | pending_initial_capture
+https://www.logoofficial.com/products/11078-bkj | pending_initial_capture
+https://www.logoofficial.com/products/13000-grs | pending_initial_capture
+https://www.logoofficial.com/products/2625-bka | pending_initial_capture
+https://www.logoofficial.com/products/2508-bra | pending_initial_capture
+https://www.logoofficial.com/products/11049-bka | pending_initial_capture
+https://www.logoofficial.com/products/9452-bkw | pending_initial_capture
+https://www.logoofficial.com/products/2618-brown | pending_initial_capture
+https://www.logoofficial.com/products/11061-grc | pending_initial_capture
+https://www.logoofficial.com/products/2521-brown | pending_initial_capture
+https://www.logoofficial.com/products/12038-brc | pending_initial_capture
+https://www.logoofficial.com/products/12060-bkw | pending_initial_capture
+https://www.logoofficial.com/products/13005-grs | pending_initial_capture
+https://www.logoofficial.com/products/25014-black | pending_initial_capture
+https://www.logoofficial.com/products/11083-brc | pending_initial_capture
+https://www.logoofficial.com/products/1074-bkm | pending_initial_capture
+https://www.logoofficial.com/products/11005-brw | pending_initial_capture
+https://www.logoofficial.com/products/1043-bkm | pending_initial_capture
+https://www.logoofficial.com/products/13009-grm | pending_initial_capture
+https://www.logoofficial.com/products/12074-bkm | pending_initial_capture
+https://www.logoofficial.com/products/2524-black | pending_initial_capture
+https://www.logoofficial.com/products/22007-black | pending_initial_capture
+https://www.logoofficial.com/products/25009-black | pending_initial_capture
+https://www.logoofficial.com/products/13015-brw | pending_initial_capture
+https://www.logoofficial.com/products/10037-bkw | pending_initial_capture
+https://www.logoofficial.com/products/2623-bka | pending_initial_capture
+https://www.logoofficial.com/products/10025-brm | pending_initial_capture
+https://www.logoofficial.com/products/13037-tnc | pending_initial_capture
+https://www.logoofficial.com/products/13022-bkc | pending_initial_capture
+https://www.logoofficial.com/products/22005-black | pending_initial_capture
+https://www.logoofficial.com/products/23057-brown | pending_initial_capture
+https://www.logoofficial.com/products/2619-bra | pending_initial_capture
+https://www.logoofficial.com/products/2503-bka | pending_initial_capture
+https://www.logoofficial.com/products/10041-brw | pending_initial_capture
+https://www.logoofficial.com/products/23057-black | pending_initial_capture
+https://www.logoofficial.com/products/23053-tan | pending_initial_capture
+https://www.logoofficial.com/products/13010-brm | pending_initial_capture
+https://www.logoofficial.com/products/2615-brown | pending_initial_capture
+https://www.logoofficial.com/products/22005-brown | pending_initial_capture
+https://www.logoofficial.com/products/25016-black | pending_initial_capture
+https://www.logoofficial.com/products/11080-bra | pending_initial_capture
+https://www.logoofficial.com/products/2511-bra | pending_initial_capture
+https://www.logoofficial.com/products/2507-bra | pending_initial_capture
+https://www.logoofficial.com/products/10053-brw | pending_initial_capture
+https://www.logoofficial.com/products/12091-gys | pending_initial_capture
+https://www.logoofficial.com/products/11044-bkc | pending_initial_capture
+https://www.logoofficial.com/products/13057-bkf | pending_initial_capture
+https://www.logoofficial.com/products/2906-brown | pending_initial_capture
+https://www.logoofficial.com/products/25009-brown | pending_initial_capture
+https://www.logoofficial.com/products/12091-bgs | pending_initial_capture
+https://www.logoofficial.com/products/12087-bka | pending_initial_capture
+https://www.logoofficial.com/products/23056-black | pending_initial_capture
+https://www.logoofficial.com/products/2617-black | pending_initial_capture
+https://www.logoofficial.com/products/2904-black | pending_initial_capture
+https://www.logoofficial.com/products/13019-bkm | pending_initial_capture
+https://www.logoofficial.com/products/2906-black | pending_initial_capture
+https://www.logoofficial.com/products/11044-brc | pending_initial_capture
+https://www.logoofficial.com/products/2501-bra | pending_initial_capture
+https://www.logoofficial.com/products/11097-bka | pending_initial_capture
+https://www.logoofficial.com/products/13063-bra | pending_initial_capture
+https://www.logoofficial.com/products/22003-brown | pending_initial_capture
+https://www.logoofficial.com/products/13010-bkm | pending_initial_capture
+https://www.logoofficial.com/products/2509-bkm | pending_initial_capture
+https://www.logoofficial.com/products/2526-black | pending_initial_capture
+https://www.logoofficial.com/products/10025-bkm | pending_initial_capture
+https://www.logoofficial.com/products/13018-tns | pending_initial_capture
+https://www.logoofficial.com/products/13054-mrc | pending_initial_capture
+https://www.logoofficial.com/products/2521-black | pending_initial_capture
+https://www.logoofficial.com/products/13015-bkw | pending_initial_capture
+https://www.logoofficial.com/products/13025-bkw | pending_initial_capture
+https://www.logoofficial.com/products/2509-brm | pending_initial_capture
+https://www.logoofficial.com/products/2629-bkm | pending_initial_capture
+https://www.logoofficial.com/products/23060-brown | pending_initial_capture
+https://www.logoofficial.com/products/11097-gra | pending_initial_capture
+https://www.logoofficial.com/products/12095-bra | pending_initial_capture
+https://www.logoofficial.com/products/2625-bra | pending_initial_capture
+https://www.logoofficial.com/products/22003-black | pending_initial_capture
+https://www.logoofficial.com/products/23053-brown | pending_initial_capture
+https://www.logoofficial.com/products/13019-brm | pending_initial_capture
+https://www.logoofficial.com/products/13041-brw | pending_initial_capture
+https://www.logoofficial.com/products/13007-tan | pending_initial_capture
+https://www.logoofficial.com/products/23066-brown | pending_initial_capture
+https://www.logoofficial.com/products/10035-blw | pending_initial_capture
+https://www.logoofficial.com/products/2507-bka | pending_initial_capture
+https://www.logoofficial.com/products/23054-tan | pending_initial_capture
+https://www.logoofficial.com/products/13061-brf | pending_initial_capture
+https://www.logoofficial.com/products/2913-bkp | pending_initial_capture
+https://www.logoofficial.com/products/23062-brown | pending_initial_capture
+https://www.logoofficial.com/products/13036-brc | pending_initial_capture
+https://www.logoofficial.com/products/23066-black | pending_initial_capture
+https://www.logoofficial.com/products/13055-bra | pending_initial_capture
+https://www.logoofficial.com/products/13024-bka | pending_initial_capture
+https://www.logoofficial.com/products/13036-bkc | pending_initial_capture
+https://www.logoofficial.com/products/13012-gry | pending_initial_capture
+https://www.logoofficial.com/products/2504-bra | pending_initial_capture
+https://www.logoofficial.com/products/23054-black | pending_initial_capture
+https://www.logoofficial.com/products/25005-brown | pending_initial_capture
+https://www.logoofficial.com/products/12091-wht | pending_initial_capture
+https://www.logoofficial.com/products/13056-bkp | pending_initial_capture
+https://www.logoofficial.com/products/23062-black | pending_initial_capture
+https://www.logoofficial.com/products/2911-bka | pending_initial_capture
+https://www.logoofficial.com/products/12091-bls | pending_initial_capture
+https://www.logoofficial.com/products/10083-brm | pending_initial_capture
+https://www.logoofficial.com/products/2611-bra | pending_initial_capture
+https://www.logoofficial.com/products/23064-brown | pending_initial_capture
+https://www.logoofficial.com/products/2637-bkm | pending_initial_capture
+https://www.logoofficial.com/products/23051-brown | pending_initial_capture
+https://www.logoofficial.com/products/23051-black | pending_initial_capture
+https://www.logoofficial.com/products/2910-bka | pending_initial_capture
+https://www.logoofficial.com/products/2510-bkm | pending_initial_capture
+https://www.logoofficial.com/products/25007-tan | pending_initial_capture
+https://www.logoofficial.com/products/2923-bka | pending_initial_capture
+https://www.logoofficial.com/products/2501-bka | pending_initial_capture
+https://www.logoofficial.com/products/23065-brown | pending_initial_capture
+https://www.logoofficial.com/products/2925-bra | pending_initial_capture
+https://www.logoofficial.com/products/23065-black | pending_initial_capture
+
+2026-11-21  LOGO Formal alternate photo source
+  SastaScene linked the exact Higrove main asset to Shopify's photo CDN.
+  Verified the shared asset identity by filename, version and article code.
+  Retrieved the already captured zoom paths via the Shopify CDN, while
+    leaving the LOGO storefront rate-limit checkpoint in place.
+  Product records: 246. Actual image files: 72. URL-only: 0.
+  Full product galleries verified against color options: 0. Products with
+    visually confirmed overhead images: 9. First candidate: none.
+  Content duplicates removed: none.
+  Public reuse permission remains unverified. Photos were saved locally only.
+  Daraz did not verify any exact gallery. Brandir surfaced individual photos
+    but did not provide full galleries. Nexora returned HTTP 429.
+  Remaining work: recheck the 15 product galleries for variant completeness
+    and capture the remaining 231 galleries. See the prior URL checkpoint.
+
+Overhead products: 2649-bka, 2649-bra, 2631-bka, 2612-brown, 2639-bka, 12005-bkp, 2925-bka, 2619-bka, 2623-bra
